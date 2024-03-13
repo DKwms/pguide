@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.pguide.project.match.mapper.MmsProjectBelongInfoMapper">
+
+    <resultMap id="BaseResultMap" type="org.pguide.project.match.entity.MmsProjectBelongInfo">
+            <id property="belongId" column="belong_id" jdbcType="INTEGER"/>
+            <result property="projectId" column="project_id" jdbcType="INTEGER"/>
+            <result property="schoolId" column="school_id" jdbcType="INTEGER"/>
+            <result property="academyId" column="academy_id" jdbcType="INTEGER"/>
+            <result property="orgId" column="org_id" jdbcType="INTEGER"/>
+            <result property="created" column="created" jdbcType="TIMESTAMP"/>
+            <result property="updated" column="updated" jdbcType="TIMESTAMP"/>
+            <result property="deleted" column="deleted" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        belong_id,project_id,school_id,
+        academy_id,org_id,created,
+        updated,deleted
+    </sql>
+</mapper>

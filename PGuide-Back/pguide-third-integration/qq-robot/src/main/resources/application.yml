@@ -1,0 +1,51 @@
+#配置接收消息的QQ号和QQ群号
+bello:
+  qq: 2127149249
+belloGroup:
+  group:
+
+simbot:
+  core:
+    # 机器人的QQ账号与密码（帐号:密码） TODO 记得上传改账号和密码
+    bots: 273185357:mengjianjun521
+  component:
+    mirai:
+      # mirai心跳周期. 过长会导致被服务器断开连接. 单位毫秒。
+      heartbeat-period-millis: 30000
+      # 每次心跳时等待结果的时间.一旦心跳超时, 整个网络服务将会重启 (将消耗约 1s). 除正在进行的任务 (如图片上传) 会被中断外, 事件和插件均不受影响.
+      heartbeat-timeout-millis: 5000
+      # 心跳失败后的第一次重连的等待时间.
+      first-reconnect-delay-millis: 5000
+      # 重连失败后, 继续尝试的每次等待时间
+      reconnect-period-millis: 5000
+      # 最多尝试多少次重连
+      reconnection-retry-times: 2147483647
+      # 使用协议类型。注，此值为枚举类 net.mamoe.mirai.utils.BotConfiguration.MiraiProtocol 的元素值，
+      # 可选值为：ANDROID_PHONE、ANDROID_PAD、ANDROID_WATCH
+      protocol: ANDROID_PAD
+      # 是否关闭mirai的bot logger
+      no-bot-log: true
+      # 关闭mirai网络日志
+      no-network-log: true
+      # mirai bot log切换使用simbot的log
+      use-simbot-bot-log: true
+      # mirai 网络log 切换使用simbot的log
+      use-simbot-network-log: true
+      # mirai配置自定义deviceInfoSeed的时候使用的随机种子。默认为1.
+      device-info-seed: 1
+      # mirai图片缓存策略，为枚举 love.forte.simbot.component.mirai.configuration.MiraiCacheType 的元素值，
+      # 可选为 FILE、 MEMORY
+      cache-type: MEMORY
+      # 如果配置项 simbot.mirai.cacheType 的值为 FILE，此处为缓存文件的保存目录。为空时默认为系统临时文件夹。
+      cache-directory:
+      # 登录验证码处理器，当登录需要输入验证码的时候可能会用到。
+      login-solver-type: DEFAULT
+      # 如果不为空，此处代表指定一个 deviceInfo 的 json文件路径。
+      dispatcher:
+        # mirai组件中，对事件进行调度的线程池参数：最大线程数。
+        core-pool-size: 8
+        # mirai组件中，对事件进行调度的线程池参数：最大线程数。
+        maximum-pool-size: 8
+        # mirai组件中，对事件进行调度的线程池参数：线程存活时间（毫秒）
+        keep-alive-time: 1000
+

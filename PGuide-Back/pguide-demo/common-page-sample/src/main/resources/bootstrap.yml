@@ -1,0 +1,22 @@
+
+spring:
+  cloud:
+    nacos:
+      username: **
+      password: **
+      server-addr: **
+      discovery:
+        username: **
+        password: **
+        server-addr: **
+        ip: **
+        port: **
+
+  #   redis
+  redis:
+    port: **
+    host: **
+    password: **
+
+  application:
+    name: pguide-project-match

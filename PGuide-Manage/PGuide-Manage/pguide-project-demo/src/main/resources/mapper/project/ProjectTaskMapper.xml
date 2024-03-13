@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pguide.project.mapper.ProjectTaskMapper">
+    
+    <resultMap type="com.pguide.project.domain.ProjectTask" id="ProjectTaskResult">
+        <result property="taskId"    column="task_id"    />
+        <result property="taskName"    column="task_name"    />
+        <result property="taskDetail"    column="task_detail"    />
+        <result property="taskStartTime"    column="task_start_time"   />
+        <result property="taskEndTime"    column="task_end_time"    />
+        <result property="taskShow"    column="task_show"    />
+        <result property="taskStateType"    column="task_state_type"    />
+        <result property="userId"    column="user_id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="reward"    column="reward"    />
+        <result property="created"    column="created"    />
+        <result property="deleted"    column="deleted"    />
+        <result property="updated"    column="updated"    />
+    </resultMap>
+    
+    <resultMap id="ProjectDtoResult" type="com.pguide.project.controller.dto.ProjectTaskDto">
+        <result property="taskId"    column="task_id"    />
+        <result property="taskName"    column="task_name"    />
+        <result property="taskDetail"    column="task_detail"    />
+        <result property="taskStartTime"    column="task_start_time"    />
+        <result property="taskEndTime"    column="task_end_time"    />
+        <result property="taskShow"    column="task_show"    />
+        <result property="taskStateType"    column="task_state_type"    />
+        <result property="userName"    column="user_name"    />
+        <result property="reward"    column="reward"    />
+        <collection property="tags" ofType="com.pguide.project.domain.ProjectTaskTag">
+            <result property="tagsId"    column="tags_id"    />
+            <result property="tagsName"    column="tags_name"    />
+            <result property="tagsType"    column="tags_type"    />
+            <result property="taskId"    column="task_id"    />
+        </collection>
+    </resultMap>
+
+    <sql id="selectProjectTaskVo">
+        select task_id, task_name, task_detail, task_start_time, task_end_time, task_show, task_state_type, user_id, user_name, reward, created, deleted, updated from project_task
+    </sql>
+
+    <select id="selectProjectTaskList" parameterType="com.pguide.project.domain.ProjectTask" resultMap="ProjectTaskResult">
+        <include refid="selectProjectTaskVo"/>
+        <where>  
+            <if test="taskName != null  and taskName != ''"> and task_name like concat('%', #{taskName}, '%')</if>
+            <if test="taskDetail != null  and taskDetail != ''"> and task_detail = #{taskDetail}</if>
+            <if test="taskStartTime != null "> and task_start_time = #{taskStartTime}</if>
+            <if test="taskEndTime != null "> and task_end_time = #{taskEndTime}</if>
+            <if test="taskShow != null "> and task_show = #{taskShow}</if>
+            <if test="taskStateType != null "> and task_state_type = #{taskStateType}</if>
+            <if test="userId != null  and userId != ''"> and user_id = #{userId}</if>
+            <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
+            <if test="reward != null "> and reward = #{reward}</if>
+            <if test="created != null "> and created = #{created}</if>
+            <if test="deleted != null "> and deleted = #{deleted}</if>
+            <if test="updated != null "> and updated = #{updated}</if>
+        </where>
+    </select>
+    
+    <select id="selectProjectTaskByTaskId" resultMap="ProjectTaskResult">
+        <include refid="selectProjectTaskVo"/>
+        where task_id = #{taskId}
+    </select>
+
+    <select id="getTasksByTaskId" resultMap="ProjectTaskResult">
+        <include refid="selectProjectTaskVo"/>
+           where task_id in
+               <foreach collection="taskIdByUser" item="taskId" open="(" close=")" separator=",">
+                   #{taskId}
+               </foreach>
+    </select>
+    <select id="getTaskDtosByTaskId" resultMap="ProjectDtoResult">
+        select
+        pt.task_id,
+        pt.task_name,
+        pt.task_detail,
+        pt.task_start_time,
+        pt.task_end_time,
+        pt.task_show,
+        pt.task_state_type,
+        pt.user_name,
+        pt.reward,
+        ptt.tags_id,
+        ptt.tags_name,
+        ptt.tags_type,
+        ptt.task_id
+        from  project_task pt left join project_task_tag ptt on pt.task_id = ptt.task_id
+            and pt.task_id in
+                <foreach collection="taskIdByUser" item="taskId" open="(" close=")" separator=",">
+                    #{taskId}
+                </foreach>
+        limit 10
+    </select>
+
+
+    <insert id="insertProjectTask" parameterType="com.pguide.project.domain.ProjectTask">
+        insert into project_task
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="taskId != null">task_id,</if>
+            <if test="taskName != null">task_name,</if>
+            <if test="taskDetail != null">task_detail,</if>
+            <if test="taskStartTime != null">task_start_time,</if>
+            <if test="taskEndTime != null">task_end_time,</if>
+            <if test="taskShow != null">task_show,</if>
+            <if test="taskStateType != null">task_state_type,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="userName != null">user_name,</if>
+            <if test="reward != null">reward,</if>
+            <if test="created != null">created,</if>
+            <if test="deleted != null">deleted,</if>
+            <if test="updated != null">updated,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="taskId != null">#{taskId},</if>
+            <if test="taskName != null">#{taskName},</if>
+            <if test="taskDetail != null">#{taskDetail},</if>
+            <if test="taskStartTime != null">#{taskStartTime},</if>
+            <if test="taskEndTime != null">#{taskEndTime},</if>
+            <if test="taskShow != null">#{taskShow},</if>
+            <if test="taskStateType != null">#{taskStateType},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="userName != null">#{userName},</if>
+            <if test="reward != null">#{reward},</if>
+            <if test="created != null">#{created},</if>
+            <if test="deleted != null">#{deleted},</if>
+            <if test="updated != null">#{updated},</if>
+         </trim>
+    </insert>
+    <insert id="addFormVo" parameterType="com.pguide.project.controller.vo.ProjectTaskAddVo" useGeneratedKeys="true" keyProperty="id">
+        insert into project_task
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="taskName != null">task_name,</if>
+            <if test="taskDetail != null">task_detail,</if>
+            <if test="taskStartTime != null">task_start_time,</if>
+            <if test="taskEndTime != null">task_end_time,</if>
+            <if test="taskShow != null">task_show,</if>
+            <if test="taskStateType != null">task_state_type,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="userName != null">user_name,</if>
+            <if test="reward != null">reward,</if>
+            <if test="created != null">created,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="taskName != null">#{taskName},</if>
+            <if test="taskDetail != null">#{taskDetail},</if>
+            <if test="taskStartTime != null">#{taskStartTime},</if>
+            <if test="taskEndTime != null">#{taskEndTime},</if>
+            <if test="taskShow != null">#{taskShow},</if>
+            <if test="taskStateType != null">#{taskStateType},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="userName != null">#{userName},</if>
+            <if test="reward != null">#{reward},</if>
+            <if test="created != null">#{created},</if>
+        </trim>
+    </insert>
+
+    <update id="updateProjectTask" parameterType="com.pguide.project.domain.ProjectTask">
+        update project_task
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="taskName != null">task_name = #{taskName},</if>
+            <if test="taskDetail != null">task_detail = #{taskDetail},</if>
+            <if test="taskStartTime != null">task_start_time = #{taskStartTime},</if>
+            <if test="taskEndTime != null">task_end_time = #{taskEndTime},</if>
+            <if test="taskShow != null">task_show = #{taskShow},</if>
+            <if test="taskStateType != null">task_state_type = #{taskStateType},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="userName != null">user_name = #{userName},</if>
+            <if test="reward != null">reward = #{reward},</if>
+            <if test="created != null">created = #{created},</if>
+            <if test="deleted != null">deleted = #{deleted},</if>
+            <if test="updated != null">updated = #{updated},</if>
+        </trim>
+        where task_id = #{taskId}
+    </update>
+
+    <delete id="deleteProjectTaskByTaskId" parameterType="Long">
+        delete from project_task where task_id = #{taskId}
+    </delete>
+
+    <delete id="deleteProjectTaskByTaskIds" parameterType="String">
+        delete from project_task where task_id in 
+        <foreach item="taskId" collection="array" open="(" separator="," close=")">
+            #{taskId}
+        </foreach>
+    </delete>
+</mapper>

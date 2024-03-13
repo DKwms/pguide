@@ -1,0 +1,15 @@
+
+spring:
+  cloud:
+    nacos:
+      username: **
+      password: **
+      server-addr: **
+      discovery:
+        username: **
+        password: **
+        server-addr: **
+        ip: **
+        port: **
+  application:
+    name: pguide-competition-manage

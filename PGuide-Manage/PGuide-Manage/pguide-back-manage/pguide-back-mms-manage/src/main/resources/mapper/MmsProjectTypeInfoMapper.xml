@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.pguide.mms.manage.mapper.MmsProjectTypeInfoMapper">
+
+    <resultMap id="BaseResultMap" type="org.pguide.mms.manage.domain.MmsProjectTypeInfo">
+            <id property="projectTypeId" column="project_type_id" jdbcType="INTEGER"/>
+            <result property="projectTypeName" column="project_type_name" jdbcType="VARCHAR"/>
+            <result property="projectTypePeopleCount" column="project_type_people_count" jdbcType="VARCHAR"/>
+            <result property="projectTypeLevel" column="project_type_level" jdbcType="VARCHAR"/>
+            <result property="created" column="created" jdbcType="TIMESTAMP"/>
+            <result property="updated" column="updated" jdbcType="TIMESTAMP"/>
+            <result property="deleted" column="deleted" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        project_type_id,project_type_name,project_type_people_count,
+        project_type_level,created,updated,
+        deleted
+    </sql>
+</mapper>

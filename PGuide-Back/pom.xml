@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.pguide</groupId>
+    <artifactId>PGuide-Back</artifactId>
+    <version>1.1.0-SNAPSHOT</version>
+
+    <packaging>pom</packaging>
+
+    <properties>
+        <!--Project Setting-->
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <maven-resources-plugin.version>3.1.0</maven-resources-plugin.version>
+        <project.encoding>UTF-8</project.encoding>
+        <pguide.version>${project.version}</pguide.version>
+
+        <!--Infrastructure Dependency Version-->
+        <spring-boot.version>2.6.6</spring-boot.version>
+        <spring-cloud-alibaba-dependencies.version>2021.0.4.0</spring-cloud-alibaba-dependencies.version>
+        <spring-cloud-dependencies.version>2021.0.4</spring-cloud-dependencies.version>
+
+        <!--用到时候可以引入并且修改默认Boot内置版本-->
+        <commons-io.version>2.4</commons-io.version>
+        <commons-lang3.version>3.12.0</commons-lang3.version>
+        <commons-beanutils.version>1.9.4</commons-beanutils.version>
+        <commons-collections4.version>4.4</commons-collections4.version>
+        <commons-configuration.version>1.10</commons-configuration.version>
+        <commons-configuration2.version>2.7</commons-configuration2.version>
+        <commons.codec.version>1.11</commons.codec.version>
+
+        <hutool.version>5.7.20</hutool.version>
+        <guava.version>31.1-jre</guava.version>
+        <lombok.version>1.18.24</lombok.version>
+        <fastjson.version>1.2.80</fastjson.version>
+        <mysql-connector-java.version>8.0.31</mysql-connector-java.version>
+        <mybatis-plus-boot-starter.version>3.5.2</mybatis-plus-boot-starter.version>
+        <elasticsearch.version>7.13.4</elasticsearch.version>
+        <knife4j.version>2.0.5</knife4j.version>
+        <hibernate-validator.version>6.2.0.Final</hibernate-validator.version>
+        <jjwt.version>0.9.1</jjwt.version>
+        <druid-starter.version>1.2.6</druid-starter.version>
+        <redisson-starter.version>3.16.1</redisson-starter.version>
+        <spring-boot-admin.version>2.5.6</spring-boot-admin.version>
+        <velocity.version>1.7</velocity.version>
+        <servlet-api.version>4.0.1</servlet-api.version>
+        <spring-data-elasticsearch.version>4.2.3</spring-data-elasticsearch.version>
+        <transmittable-thread-local.version>2.14.3</transmittable-thread-local.version>
+        <dubbo.version>2.7.8</dubbo.version>
+        <jackson-databind.version>2.13.4</jackson-databind.version>
+        <kaptcha.version>2.3.3</kaptcha.version>
+        <fastjson.version>2.0.34</fastjson.version>
+        <jackson.version>2.16.0</jackson.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- ===================================Core Version Control Dependencies=================================== -->
+            <!--Boot-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!--Cloud-->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud-dependencies.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!--Cloud Alibaba-->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring-cloud-alibaba-dependencies.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- ===================================Rest Dependencies=================================== -->
+            <!--Druid Starter-->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid-starter.version}</version>
+            </dependency>
+            <!--Mybatis Plus-->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus-boot-starter.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-annotation</artifactId>
+                <version>${mybatis-plus-boot-starter.version}</version>
+            </dependency>
+            <!--Knife4J-->
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-spring-boot-starter</artifactId>
+                <version>${knife4j.verison}</version>
+            </dependency>
+            <!--MySQL Connector/J-->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql-connector-java.version}</version>
+            </dependency>
+            <!--Guava-->
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+            <!--FastJson-->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
+            <!--Commons Lang-->
+            <dependency>
+                <groupId>commons-lang</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
+            </dependency>
+            <!--Commons IO-->
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons-io.version}</version>
+            </dependency>
+            <!--Commons Codec-->
+            <dependency>
+                <groupId>commons-codec</groupId>
+                <artifactId>commons-codec</artifactId>
+                <version>${commons.codec.version}</version>
+            </dependency>
+            <!-- 验证码 -->
+            <dependency>
+                <groupId>pro.fessional</groupId>
+                <artifactId>kaptcha</artifactId>
+                <version>${kaptcha.version}</version>
+            </dependency>
+            <!-- JWT -->
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>${jjwt.version}</version>
+            </dependency>
+            <!-- 线程传递值 -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>transmittable-thread-local</artifactId>
+                <version>${transmittable-thread-local.version}</version>
+            </dependency>
+            <!--公用核心模块-->
+            <dependency>
+                <groupId>org.pguide</groupId>
+                <artifactId>pguide-common-core</artifactId>
+                <version>${pguide.version}</version>
+            </dependency>
+            <!--fastjson-->
+            <dependency>
+                <groupId>com.alibaba.fastjson2</groupId>
+                <artifactId>fastjson2</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <!--Configuration Processor-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <!--Test Starter-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!--Lombok-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <optional>true</optional>
+        </dependency>
+    </dependencies>
+
+    <modules>
+        <!--内网（OpenFeign）RPC的API-->
+        <module>pguide-api</module>
+        <!--核心业务提供模块 微服务 服务拆分-->
+        <module>pguide-business-providers</module>
+        <!--代码生成器-->
+        <module>pguide-code-generator</module>
+        <!--共用基础设施 Infrastructure Service-->
+        <module>pguide-commons</module>
+        <!--网关 默认应用网关-->
+        <module>pguide-gateway</module>
+        <!--实体类抽取 service的api模块要依赖于entity，providers的模块依赖于api-->
+        <module>pguide-entity</module>
+        <!--三方整合-->
+        <module>pguide-third-integration</module>
+        <!--应用监控中台 可以结合业务写多个维度的监控-->
+        <module>pguide-monitor</module>
+        <!--测试模块 一般用于一些基础功能的测试-->
+        <module>pguide-demo</module>
+        <!--鉴权模块-->
+        <module>pguide-auth</module>
+        <module>pguide-service</module>
+    </modules>
+
+    <build>
+        <finalName>${project.name}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>${project.encoding}</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>${maven-resources-plugin.version}</version>
+                <configuration>
+                    <encoding>${project.encoding}</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring-boot.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>repackage</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+    </build>
+
+</project>

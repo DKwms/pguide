@@ -1,0 +1,10 @@
+# TODO 阿里云 msg
+aliyun :
+    send-msg :
+        # 产品密钥
+        accessKeyId : 你的accessKeyId
+        accessKeySecret : 你的accessKeySecret
+        # 短信签名和模板
+        SignName : PGuide
+        TemplateCode : 短信模板ID
+

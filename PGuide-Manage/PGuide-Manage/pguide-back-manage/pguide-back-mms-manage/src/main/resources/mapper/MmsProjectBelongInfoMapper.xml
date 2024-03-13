@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.pguide.mms.manage.mapper.MmsProjectBelongInfoMapper">
+    
+    <resultMap type="org.pguide.mms.manage.domain.MmsProjectBelongInfo" id="MmsProjectBelongInfoResult">
+        <result property="belongId"    column="belong_id"    />
+        <result property="projectId"    column="project_id"    />
+        <result property="schoolId"    column="school_id"    />
+        <result property="academyId"    column="academy_id"    />
+        <result property="orgId"    column="org_id"    />
+        <result property="created"    column="created"    />
+        <result property="updated"    column="updated"    />
+        <result property="deleted"    column="deleted"    />
+    </resultMap>
+
+    <sql id="selectMmsProjectBelongInfoVo">
+        select belong_id, project_id, school_id, academy_id, org_id, created, updated, deleted from mms_project_belong_info
+    </sql>
+
+    <select id="selectMmsProjectBelongInfoList" parameterType="org.pguide.mms.manage.domain.MmsProjectBelongInfo" resultMap="MmsProjectBelongInfoResult">
+        <include refid="selectMmsProjectBelongInfoVo"/>
+        <where>  
+            <if test="projectId != null "> and project_id = #{projectId}</if>
+            <if test="schoolId != null "> and school_id = #{schoolId}</if>
+            <if test="academyId != null "> and academy_id = #{academyId}</if>
+            <if test="orgId != null "> and org_id = #{orgId}</if>
+            <if test="created != null "> and created = #{created}</if>
+            <if test="updated != null "> and updated = #{updated}</if>
+            <if test="deleted != null "> and deleted = #{deleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectMmsProjectBelongInfoByBelongId" parameterType="Long" resultMap="MmsProjectBelongInfoResult">
+        <include refid="selectMmsProjectBelongInfoVo"/>
+        where belong_id = #{belongId}
+    </select>
+        
+    <insert id="insertMmsProjectBelongInfo" parameterType="org.pguide.mms.manage.domain.MmsProjectBelongInfo">
+        insert into mms_project_belong_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="belongId != null">belong_id,</if>
+            <if test="projectId != null">project_id,</if>
+            <if test="schoolId != null">school_id,</if>
+            <if test="academyId != null">academy_id,</if>
+            <if test="orgId != null">org_id,</if>
+            <if test="created != null">created,</if>
+            <if test="updated != null">updated,</if>
+            <if test="deleted != null">deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="belongId != null">#{belongId},</if>
+            <if test="projectId != null">#{projectId},</if>
+            <if test="schoolId != null">#{schoolId},</if>
+            <if test="academyId != null">#{academyId},</if>
+            <if test="orgId != null">#{orgId},</if>
+            <if test="created != null">#{created},</if>
+            <if test="updated != null">#{updated},</if>
+            <if test="deleted != null">#{deleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMmsProjectBelongInfo" parameterType="org.pguide.mms.manage.domain.MmsProjectBelongInfo">
+        update mms_project_belong_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="projectId != null">project_id = #{projectId},</if>
+            <if test="schoolId != null">school_id = #{schoolId},</if>
+            <if test="academyId != null">academy_id = #{academyId},</if>
+            <if test="orgId != null">org_id = #{orgId},</if>
+            <if test="created != null">created = #{created},</if>
+            <if test="updated != null">updated = #{updated},</if>
+            <if test="deleted != null">deleted = #{deleted},</if>
+        </trim>
+        where belong_id = #{belongId}
+    </update>
+
+    <delete id="deleteMmsProjectBelongInfoByBelongId" parameterType="Long">
+        delete from mms_project_belong_info where belong_id = #{belongId}
+    </delete>
+
+    <delete id="deleteMmsProjectBelongInfoByBelongIds" parameterType="String">
+        delete from mms_project_belong_info where belong_id in 
+        <foreach item="belongId" collection="array" open="(" separator="," close=")">
+            #{belongId}
+        </foreach>
+    </delete>
+</mapper>

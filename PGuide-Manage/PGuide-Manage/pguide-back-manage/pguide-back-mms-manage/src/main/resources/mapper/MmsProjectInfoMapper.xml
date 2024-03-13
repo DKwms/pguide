@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.pguide.mms.manage.mapper.MmsProjectInfoMapper">
+
+    <resultMap type="org.pguide.mms.manage.domain.MmsProjectInfo" id="MmsProjectInfoResult">
+        <result property="projectId" column="project_id"/>
+        <result property="projectName" column="project_name"/>
+        <result property="projectSubjectType" column="project_subject_type"/>
+        <result property="projectOpenLevel" column="project_open_level"/>
+        <result property="created" column="created"/>
+        <result property="updated" column="updated"/>
+        <result property="deleted" column="deleted"/>
+    </resultMap>
+
+    <resultMap id="ProjectInfo" type="org.pguide.mms.manage.controller.publish.es.domain.dto.ProjectInfo">
+        <result property="projectName" column="project_name"/>
+        <result property="subject" column="subject"/>
+        <result property="openLevel" column="open_level"/>
+        <result property="school" column="school"/>
+        <result property="academy" column="academy"/>
+        <result property="introduction" column="project_info"/>
+        <result property="details" column="project_info_details"/>
+        <collection property="member" ofType="org.pguide.mms.manage.controller.publish.es.domain.bo.Member">
+            <result property="memberId" column="project_admin_id"/>
+            <result property="memberName" column="project_admin_name"/>
+            <result property="memberType" column="project_admin_type"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectMmsProjectInfoToESByProjectName"
+            resultMap="ProjectInfo">
+
+        SELECT
+            info.project_name project_name,
+            info.project_subject_type subject,
+            info.project_open_level open_level,
+            bel.school_id school,
+            bel.academy_id academy,
+            mem.member_id project_admin_id,
+            mem.member_name project_admin_name,
+            mem.member_type_id project_admin_type,
+            di.project_introduction project_info,
+            di.project_details project_info_details
+        FROM
+            mms_project_info info
+                LEFT JOIN mms_project_member_info mem ON mem.project_id = info.project_id
+                AND mem.member_type_id = 1
+                LEFT JOIN mms_project_belong_info bel ON bel.project_id = info.project_id
+                LEFT JOIN mms_project_detail_info di ON di.project_id = info.project_id
+        WHERE
+            info.project_name = #{name}
+    </select>
+
+    <sql id="selectMmsProjectInfoVo">
+        select project_id,
+               project_name,
+               project_subject_type,
+               project_open_level,
+               project_status_id,
+               created,
+               updated,
+               deleted
+        from mms_project_info
+    </sql>
+
+    <select id="selectMmsProjectInfoList" parameterType="org.pguide.mms.manage.domain.MmsProjectInfo"
+            resultMap="MmsProjectInfoResult">
+        <include refid="selectMmsProjectInfoVo"/>
+        <where>
+            <if test="projectName != null  and projectName != ''">and project_name like concat('%', #{projectName},
+                '%')
+            </if>
+            <if test="projectSubjectType != null  and projectSubjectType != ''">and project_subject_type =
+                #{projectSubjectType}
+            </if>
+            <if test="projectOpenLevel != null  and projectOpenLevel != ''">and project_open_level =
+                #{projectOpenLevel}
+            </if>
+            <if test="created != null ">and created = #{created}</if>
+            <if test="updated != null ">and updated = #{updated}</if>
+            <if test="deleted != null ">and deleted = #{deleted}</if>
+        </where>
+    </select>
+
+    <select id="selectMmsProjectInfoByProjectId" parameterType="Long" resultMap="MmsProjectInfoResult">
+        <include refid="selectMmsProjectInfoVo"/>
+        where project_id = #{projectId}
+    </select>
+
+    <select id="selectPublishVo" resultType="org.pguide.mms.manage.controller.publish.vo.ProjectPublishVo">
+        SELECT
+            info.project_name project_name,
+            info.project_subject_type project_type,
+            info.project_open_level project_open_level,
+            info.project_status_id project_status,
+            di.project_introduction project_info,
+            bel.school_id project_school_id,
+            bel.academy_id project_academy_id,
+            mem.member_id project_admin_id,
+            mem.member_name project_admin
+        FROM
+            mms_project_info info
+            LEFT JOIN mms_project_member_info mem ON mem.project_id = info.project_id
+            AND mem.member_type_id = 1
+            LEFT JOIN mms_project_belong_info bel ON bel.project_id = info.project_id
+            LEFT JOIN mms_project_detail_info di ON di.project_id = info.project_id
+        WHERE
+        <trim  suffixOverrides="and" >
+            <if test="projectVo.projectStatus==null">
+                info.project_status_id = 1 and
+            </if>
+            <if test="projectVo.projectStatus!=null">
+                info.project_status_id = #{projectVo.projectStatus} and
+            </if>
+            <if test="projectVo.projectType!=null and projectVo.projectType!=''">
+                info.project_subject_type = #{projectVo.projectType} and
+            </if>
+            <if test="projectVo.projectName!=null and projectVo.projectName!=''">
+                info.project_name = #{projectVo.projectName} and
+            </if>
+            <if test="projectVo.projectOpenLevel!=null and projectVo.projectOpenLevel!=''">
+                info.project_open_level = #{projectVo.projectOpenLevel} and
+            </if>
+            <if test="projectVo.projectAdmin!=null and projectVo.projectAdmin!=''">
+                mem.member_name = #{projectVo.projectAdmin} and
+            </if>
+            <if test="projectVo.projectSchool!=null and projectVo.projectSchool!=''">
+            </if>
+            <if test="projectVo.projectAcademy!=null and projectVo.projectAcademy!=''">
+            </if>
+            <if test="projectVo.startTime!=null and projectVo.startTime!=null">
+                info.created &gt; #{projectVo.startTime} and
+            </if>
+            <if test="projectVo.endTime!=null and projectVo.endTime!=null">
+                info.created &lt; #{projectVo.endTime} and
+            </if>
+        </trim>
+    </select>
+
+
+    <insert id="insertMmsProjectInfo" parameterType="org.pguide.mms.manage.domain.MmsProjectInfo">
+        insert into mms_project_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="projectId != null">project_id,</if>
+            <if test="projectName != null">project_name,</if>
+            <if test="projectSubjectType != null">project_subject_type,</if>
+            <if test="projectOpenLevel != null">project_open_level,</if>
+            <if test="created != null">created,</if>
+            <if test="updated != null">updated,</if>
+            <if test="deleted != null">deleted,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="projectId != null">#{projectId},</if>
+            <if test="projectName != null">#{projectName},</if>
+            <if test="projectSubjectType != null">#{projectSubjectType},</if>
+            <if test="projectOpenLevel != null">#{projectOpenLevel},</if>
+            <if test="created != null">#{created},</if>
+            <if test="updated != null">#{updated},</if>
+            <if test="deleted != null">#{deleted},</if>
+        </trim>
+    </insert>
+
+    <update id="updateMmsProjectInfo" parameterType="org.pguide.mms.manage.domain.MmsProjectInfo">
+        update mms_project_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="projectName != null">project_name = #{projectName},</if>
+            <if test="projectSubjectType != null">project_subject_type = #{projectSubjectType},</if>
+            <if test="projectOpenLevel != null">project_open_level = #{projectOpenLevel},</if>
+            <if test="created != null">created = #{created},</if>
+            <if test="updated != null">updated = #{updated},</if>
+            <if test="deleted != null">deleted = #{deleted},</if>
+        </trim>
+        where project_id = #{projectId}
+    </update>
+    <update id="updateMmsProjectInfoStatus">
+        update mms_project_info SET project_status_id = #{puv.status_id}
+        where project_name = #{puv.projectName}
+    </update>
+
+    <delete id="deleteMmsProjectInfoByProjectId" parameterType="Long">
+        delete
+        from mms_project_info
+        where project_id = #{projectId}
+    </delete>
+
+    <delete id="deleteMmsProjectInfoByProjectIds" parameterType="String">
+        delete from mms_project_info where project_id in
+        <foreach item="projectId" collection="array" open="(" separator="," close=")">
+            #{projectId}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.pguide.mms.manage.mapper.MmsMemberTypeDictMapper">
+    
+    <resultMap type="org.pguide.mms.manage.domain.MmsMemberTypeDict" id="MmsMemberTypeDictResult">
+        <result property="memberTypeId"    column="member_type_id"    />
+        <result property="memberTypeName"    column="member_type_name"    />
+        <result property="memberTypeKey"    column="member_type_key"    />
+        <result property="created"    column="created"    />
+        <result property="updated"    column="updated"    />
+        <result property="deleted"    column="deleted"    />
+    </resultMap>
+
+    <sql id="selectMmsMemberTypeDictVo">
+        select member_type_id, member_type_name, member_type_key, created, updated, deleted from mms_member_type_dict
+    </sql>
+
+    <select id="selectMmsMemberTypeDictList" parameterType="org.pguide.mms.manage.domain.MmsMemberTypeDict" resultMap="MmsMemberTypeDictResult">
+        <include refid="selectMmsMemberTypeDictVo"/>
+        <where>  
+            <if test="memberTypeName != null  and memberTypeName != ''"> and member_type_name like concat('%', #{memberTypeName}, '%')</if>
+            <if test="memberTypeKey != null  and memberTypeKey != ''"> and member_type_key = #{memberTypeKey}</if>
+            <if test="created != null "> and created = #{created}</if>
+            <if test="updated != null "> and updated = #{updated}</if>
+            <if test="deleted != null "> and deleted = #{deleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectMmsMemberTypeDictByMemberTypeId" parameterType="Long" resultMap="MmsMemberTypeDictResult">
+        <include refid="selectMmsMemberTypeDictVo"/>
+        where member_type_id = #{memberTypeId}
+    </select>
+        
+    <insert id="insertMmsMemberTypeDict" parameterType="org.pguide.mms.manage.domain.MmsMemberTypeDict">
+        insert into mms_member_type_dict
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="memberTypeId != null">member_type_id,</if>
+            <if test="memberTypeName != null">member_type_name,</if>
+            <if test="memberTypeKey != null">member_type_key,</if>
+            <if test="created != null">created,</if>
+            <if test="updated != null">updated,</if>
+            <if test="deleted != null">deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="memberTypeId != null">#{memberTypeId},</if>
+            <if test="memberTypeName != null">#{memberTypeName},</if>
+            <if test="memberTypeKey != null">#{memberTypeKey},</if>
+            <if test="created != null">#{created},</if>
+            <if test="updated != null">#{updated},</if>
+            <if test="deleted != null">#{deleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMmsMemberTypeDict" parameterType="org.pguide.mms.manage.domain.MmsMemberTypeDict">
+        update mms_member_type_dict
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="memberTypeName != null">member_type_name = #{memberTypeName},</if>
+            <if test="memberTypeKey != null">member_type_key = #{memberTypeKey},</if>
+            <if test="created != null">created = #{created},</if>
+            <if test="updated != null">updated = #{updated},</if>
+            <if test="deleted != null">deleted = #{deleted},</if>
+        </trim>
+        where member_type_id = #{memberTypeId}
+    </update>
+
+    <delete id="deleteMmsMemberTypeDictByMemberTypeId" parameterType="Long">
+        delete from mms_member_type_dict where member_type_id = #{memberTypeId}
+    </delete>
+
+    <delete id="deleteMmsMemberTypeDictByMemberTypeIds" parameterType="String">
+        delete from mms_member_type_dict where member_type_id in 
+        <foreach item="memberTypeId" collection="array" open="(" separator="," close=")">
+            #{memberTypeId}
+        </foreach>
+    </delete>
+</mapper>

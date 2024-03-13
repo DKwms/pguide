@@ -1,0 +1,182 @@
+<template>
+  <div style="text-align: center" >
+    <div v-show="!ifShowDetail">
+      <h1>任务大厅</h1>
+      <div style="margin: 20px;overflow: hidden;padding-bottom: 10px" class="shadow-inset-lr">
+        <div style="display: flex;justify-content: center;padding-top: 20px;flex-wrap: wrap;" >
+          <template v-for="taskCard in taskCards">
+            <div @click="clickTaskCard(taskCard.taskId)">
+              <TaskCard style="margin: 20px" :auth="taskCard.userName" :card-name="taskCard.taskName" :detail="taskCard.taskDetail" :tags="taskCard.tags" :coin="taskCard.reward"></TaskCard>
+            </div>
+          </template>
+        </div>
+      </div>
+    </div>
+
+     <div v-if="ifShowDetail" class="detailCard">
+       <div style="height: 1000px"></div>
+       <div class="detailBackGrand"></div>
+       <div class="detailCardBody" style="padding: 20px 40px">
+         <el-button style="position: absolute;right: 0;top:0" @click="closeDetailCard">关闭</el-button>
+         <h2>{{detail.taskName}}</h2>
+         <hr>
+<!--         后端组装TAGS-->
+         <template v-for="tag in detail.tags">
+           <el-tag class="tag" :type="tag.tagsType" style="float: left;margin-right: 20px">{{tag.tagsName}}</el-tag>
+         </template>
+         <br>
+         <!--        任务详情-->
+         <div style="margin-top: 30px">
+           <p style="text-align: left;color: #3d7d7d">任务详情：</p>
+           <p style="width: 35vw; word-break: break-all;word-wrap: break-word;text-align: left;margin-left: 20px">  {{detail.taskDetail}}</p>
+           <p style="text-align: left;color: #3d7d7d">截止时间：</p>
+<!--           TODO 计算任务时间-->
+           <p style="width: 100%; word-break: break-all;word-wrap: break-word;text-align: left;margin-left: 20px"> {{detail.taskStartTime}} —— {{detail.taskEndTime}} | 剩余 2 天</p>
+           <p style="text-align: left;color: #3d7d7d">奖励额度：</p>
+           <p style="text-align: left;display: flex;justify-content: left;margin-left: 20px"> {{detail.reward}} <svg style="margin-left: 5px"  t="1692311957655" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4118" width="20" height="20"><path d="M932.59 576.56c0.39-1.9-4.88-95.88-4.88-95.88 46.55 0.33 5.09-36.78-137.13-36.78-194.2 0-257.51 66.97-257.51 113.52v273h0.1c2.03 45.98 109.7 29.85 250.66 29.85 60.86 0 101.58-33.35 101.58-33.35l47.86-46.11-0.68-204.25z" fill="#81C8BE" p-id="4119"></path><path d="M631.55 868.35c-59.63 0-97.83-5.57-103.13-32.59h-0.6l-0.09-5.34V557.43c0-44.14 55.37-118.87 262.85-118.87 91.83 0 150.63 16.1 159.33 31.25 1.75 3.05 1.83 6.38 0.21 9.16-2.36 4.04-7.86 6.31-16.77 6.89 4.07 72.82 4.6 87.33 4.55 90.68h0.03l0.68 206.54-49.5 47.69c-2.04 1.69-43.24 34.83-105.28 34.83-31.39 0-61.72 0.81-88.47 1.54-23.23 0.63-44.63 1.21-63.81 1.21z m-93.15-39.58l0.08 1.41c1.37 30.47 66.45 28.72 156.58 26.29 26.82-0.72 57.22-1.54 88.76-1.54 58.09 0 97.8-31.82 98.2-32.14l45.89-44.23-0.66-202.53 0.02-0.13c0.01-5.58-2.9-59.4-4.89-94.91l-0.32-5.68 5.69 0.04c6.43-0.04 10.22-0.72 12.02-1.36-6.99-6.92-50.1-24.75-149.19-24.75-199.47 0-252.17 70.77-252.17 108.19v271.34z" fill="#81C8BE" p-id="4120"></path><path d="M445.98 192.38c-142.22 0-257.51 37.31-257.51 83.32 0 8.23 0.86 442.82 0.86 442.82l229.88-6.17-0.99-215.24 187.08-83.56V284.6c0.01-46.02-17.1-92.22-159.32-92.22z" fill="#81C8BE" p-id="4121"></path><path d="M184 724l-0.01-5.48s-0.87-434.6-0.87-442.83c0-49.71 115.46-88.65 262.85-88.65 145.1 0 164.67 49.32 164.67 97.56V417l-187.06 83.55 0.98 216.99L184 724z m261.98-526.28c-150.84 0-252.18 40.32-252.18 77.97 0 7.69 0.75 387.08 0.86 437.34l219.19-5.87-0.98-213.51 187.1-83.58V284.6c-0.01-45.12-18.66-86.88-153.99-86.88z" fill="#81C8BE" p-id="4122"></path><path d="M432.1 752.12s-33.17-38.11-12.89-39.77l-230.75 6.17c0 46.02 101.42 33.6 243.64 33.6z" fill="#81C8BE" p-id="4123"></path><path d="M299.24 759c-54.49 0-91.22-3.27-107.39-19.18-5.79-5.69-8.73-12.86-8.73-21.31v-5.2l235.94-6.3 0.58 10.66c-1.08 0.09-1.61 0.32-1.71 0.4-1.31 3.29 7.47 18.21 18.19 30.55l7.7 8.84H432.1c-26.71 0-51.99 0.44-75.41 0.84-20.89 0.37-40.07 0.7-57.45 0.7z m-104.83-35.3c0.8 3.25 2.44 6.06 4.93 8.51 18.14 17.83 79.48 16.75 157.16 15.41 20.19-0.34 41.75-0.72 64.41-0.82-6.58-8.72-13.77-20.24-13.55-28.78l-212.95 5.68z" fill="#81C8BE" p-id="4124"></path><path d="M347.79 356.52c-136.89 0-284.21-33.22-284.21-106.14 0-72.94 147.33-106.15 284.21-106.15S632 177.44 632 250.38c0 72.92-147.32 106.14-284.21 106.14z m0-158.9c-150.92 0-227.29 38.43-230.84 53.04 3.56 14.04 79.94 52.47 230.84 52.47 149.95 0 226.31-37.94 230.76-52.75-4.43-14.81-80.78-52.76-230.76-52.76zM347.79 479.97c-136.89 0-284.21-33.22-284.21-106.15h53.39c3.52 14.33 79.89 52.76 230.82 52.76 118.48 0 205.9-25.24 228-48.97 2.06-2.21 2.75-3.68 2.84-4.06l53.37 0.27c0 9.93-2.97 24.97-17.13 40.17-37.31 40.08-142.15 65.98-267.08 65.98zM676.72 745.11c-136.89 0-284.21-33.22-284.21-106.15h53.39c3.52 14.33 79.89 52.76 230.82 52.76 150.69 0 226-38.38 229.19-52.96l53.37 0.2c0 72.94-146.47 106.15-282.56 106.15zM347.79 633.64c-136.89 0-284.21-33.22-284.21-106.15h53.39c3.52 14.33 79.89 52.76 230.82 52.76 20.03 0 40.01-0.74 59.4-2.2l4 53.25c-20.71 1.55-42.03 2.34-63.4 2.34zM347.79 778.77c-136.89 0-284.21-33.22-284.21-106.15h53.39c3.52 14.33 79.89 52.76 230.82 52.76 20.69 0 41.33-0.78 61.32-2.34l4.13 53.23c-21.36 1.66-43.38 2.5-65.45 2.5zM675.74 886.96c-136.89 0-284.21-33.22-284.21-106.14h53.39c3.54 14.32 79.91 52.75 230.82 52.75s227.28-38.43 230.84-53.03l53.37 0.28c0 72.93-147.32 106.14-284.21 106.14z" fill="#1E4D48" p-id="4125"></path><path d="M675.74 603.26c-136.89 0-284.21-33.22-284.21-106.15s147.33-106.14 284.21-106.14 284.21 33.22 284.21 106.14c0 72.94-147.32 106.15-284.21 106.15z m0-158.9c-150.9 0-227.28 38.43-230.84 53.03 3.55 14.05 79.9 52.48 230.84 52.48 149.96 0 226.32-37.95 230.77-52.76-4.46-14.81-80.83-52.75-230.77-52.75zM63.58 250.38h53.39v423.89H63.58z" fill="#1E4D48" p-id="4126"></path><path d="M578.61 250.38H632v175.33h-53.39zM391.53 497.11h53.39v285.35h-53.39zM906.56 497.11h53.39v285.35h-53.39z" fill="#1E4D48" p-id="4127"></path></svg>
+           <p style="text-align: left;color: #3d7d7d">参与人员：</p>
+           <p style="width: 100%; word-break: break-all;word-wrap: break-word;text-align: left;margin-left: 20px"> 1/5</p>
+         </div>
+
+         <hr>
+         <p style="font-size: 0.8em;text-align: right">—— {{detail.userName}}</p>
+
+         <el-button style="margin-bottom: 20px" type="success">拿下</el-button>
+       </div>
+     </div>
+  </div>
+</template>
+
+<script>
+import TaskCard from "@/components/Task/TaskCard.vue";
+import VanillaTilt from "vanilla-tilt";
+import {getTask, getTaskDto} from "@/api/project/task";
+export default {
+  name: "View.vue",
+  components: {TaskCard},
+  data() {
+    return {
+      // 版本号
+      version: "3.8.6",
+      ifShowDetail:false,
+      detail:[],
+      // 任务卡数据
+      taskCards:[]
+    };
+  },
+  methods: {
+    goTarget(href) {
+      window.open(href, "_blank");
+    },
+    clickTaskCard(id){
+      this.ifShowDetail = true
+      this.$message.success(id)
+    //   获取任务详情页
+      getTask(id).then(r=>{
+        this.detail = r.data
+      }).catch(e=>{
+        this.$message.error("获取详情页数据失败")
+      })
+
+    },
+    closeDetailCard(){
+      this.ifShowDetail = !this.ifShowDetail
+    }
+  },
+  mounted(){
+    console.log("aaa")
+    getTaskDto().then(r=>{
+      console.log(r.data)
+      this.taskCards = r.data;
+    }).catch(e=>{
+      console.log(e)
+    })
+  }
+
+};
+</script>
+
+<style scoped>
+
+.detailCard{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  top: 0;
+}
+
+.detailBackGrand {
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  opacity: 0.8;
+  position: absolute;
+  z-index: 1;
+}
+
+/*TODO 适配手机端*/
+.detailCardBody{
+  top:10px;
+  min-width: 30vw;
+  min-height: 88vh;
+  position: absolute;
+  background-color: white;
+  z-index: 2;
+}
+
+.slide-fwd-center {
+  -webkit-animation: slide-fwd-center 0.45s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+  animation: slide-fwd-center 0.45s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+@-webkit-keyframes slide-fwd-center {
+  0% {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+  }
+  100% {
+    -webkit-transform: translateZ(160px);
+    transform: translateZ(160px);
+  }
+}
+@keyframes slide-fwd-center {
+  0% {
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+  }
+  100% {
+    -webkit-transform: translateZ(160px);
+    transform: translateZ(160px);
+  }
+}
+
+/*//=============*/
+
+
+.shadow-inset-lr {
+  -webkit-animation: shadow-inset-lr 0.9s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+  animation: shadow-inset-lr 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+@-webkit-keyframes shadow-inset-lr {
+  0% {
+    -webkit-box-shadow: inset 0 0 0 0 rgba(0, 0, 0, 0), inset 0 0 0 0 rgba(0, 0, 0, 0);
+    box-shadow: inset 0 0 0 0 rgba(0, 0, 0, 0), inset 0 0 0 0 rgba(0, 0, 0, 0);
+  }
+  100% {
+    -webkit-box-shadow: inset -6px 0 14px -6px rgba(0, 0, 0, 0.5), inset 6px 0 14px -6px rgba(0, 0, 0, 0.5);
+    box-shadow: inset -6px 0 14px -6px rgba(0, 0, 0, 0.5), inset 6px 0 14px -6px rgba(0, 0, 0, 0.5);
+  }
+}
+@keyframes shadow-inset-lr {
+  0% {
+    -webkit-box-shadow: inset 0 0 0 0 rgba(0, 0, 0, 0), inset 0 0 0 0 rgba(0, 0, 0, 0);
+    box-shadow: inset 0 0 0 0 rgba(0, 0, 0, 0), inset 0 0 0 0 rgba(0, 0, 0, 0);
+  }
+  100% {
+    -webkit-box-shadow: inset -6px 0 14px -6px rgba(0, 0, 0, 0.5), inset 6px 0 14px -6px rgba(0, 0, 0, 0.5);
+    box-shadow: inset -6px 0 14px -6px rgba(0, 0, 0, 0.5), inset 6px 0 14px -6px rgba(0, 0, 0, 0.5);
+  }
+}
+</style>
+

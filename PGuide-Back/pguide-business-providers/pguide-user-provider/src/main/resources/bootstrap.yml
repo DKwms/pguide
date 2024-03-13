@@ -1,0 +1,16 @@
+spring:
+  cloud:
+    nacos:
+      username: **
+      password: **
+      server-addr: **
+      discovery:
+        username: **
+        password: **
+        server-addr: **
+      config:
+        namespace: **
+        group: **
+
+  application:
+    name: pguide-usercenter

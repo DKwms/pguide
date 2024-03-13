@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.pguide.user.mapper.SysAuthInfoMapper">
+
+    <resultMap id="BaseResultMap" type="org.pguide.user.entity.SysAuthInfo">
+            <id property="sysId" column="sys_id" jdbcType="INTEGER"/>
+            <result property="sysName" column="sys_name" jdbcType="VARCHAR"/>
+            <result property="sysType" column="sys_type" jdbcType="VARCHAR"/>
+            <result property="sysUser" column="sys_user" jdbcType="VARCHAR"/>
+            <result property="created" column="created" jdbcType="TIMESTAMP"/>
+            <result property="updated" column="updated" jdbcType="TIMESTAMP"/>
+            <result property="deleted" column="deleted" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        sys_id,sys_name,sys_type,
+        sys_user,created,updated,
+        deleted
+    </sql>
+</mapper>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.pguide.mms.manage.mapper.MmsNeedTypeDictMapper">
+    
+    <resultMap type="org.pguide.mms.manage.domain.MmsNeedTypeDict" id="MmsNeedTypeDictResult">
+        <result property="needTypeId"    column="need_type_id"    />
+        <result property="needTypeName"    column="need_type_name"    />
+        <result property="created"    column="created"    />
+        <result property="updated"    column="updated"    />
+        <result property="deleted"    column="deleted"    />
+    </resultMap>
+
+    <sql id="selectMmsNeedTypeDictVo">
+        select need_type_id, need_type_name, created, updated, deleted from mms_need_type_dict
+    </sql>
+
+    <select id="selectMmsNeedTypeDictList" parameterType="org.pguide.mms.manage.domain.MmsNeedTypeDict" resultMap="MmsNeedTypeDictResult">
+        <include refid="selectMmsNeedTypeDictVo"/>
+        <where>  
+            <if test="needTypeName != null  and needTypeName != ''"> and need_type_name like concat('%', #{needTypeName}, '%')</if>
+            <if test="created != null "> and created = #{created}</if>
+            <if test="updated != null "> and updated = #{updated}</if>
+            <if test="deleted != null "> and deleted = #{deleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectMmsNeedTypeDictByNeedTypeId" parameterType="Long" resultMap="MmsNeedTypeDictResult">
+        <include refid="selectMmsNeedTypeDictVo"/>
+        where need_type_id = #{needTypeId}
+    </select>
+        
+    <insert id="insertMmsNeedTypeDict" parameterType="org.pguide.mms.manage.domain.MmsNeedTypeDict">
+        insert into mms_need_type_dict
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="needTypeId != null">need_type_id,</if>
+            <if test="needTypeName != null">need_type_name,</if>
+            <if test="created != null">created,</if>
+            <if test="updated != null">updated,</if>
+            <if test="deleted != null">deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="needTypeId != null">#{needTypeId},</if>
+            <if test="needTypeName != null">#{needTypeName},</if>
+            <if test="created != null">#{created},</if>
+            <if test="updated != null">#{updated},</if>
+            <if test="deleted != null">#{deleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMmsNeedTypeDict" parameterType="org.pguide.mms.manage.domain.MmsNeedTypeDict">
+        update mms_need_type_dict
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="needTypeName != null">need_type_name = #{needTypeName},</if>
+            <if test="created != null">created = #{created},</if>
+            <if test="updated != null">updated = #{updated},</if>
+            <if test="deleted != null">deleted = #{deleted},</if>
+        </trim>
+        where need_type_id = #{needTypeId}
+    </update>
+
+    <delete id="deleteMmsNeedTypeDictByNeedTypeId" parameterType="Long">
+        delete from mms_need_type_dict where need_type_id = #{needTypeId}
+    </delete>
+
+    <delete id="deleteMmsNeedTypeDictByNeedTypeIds" parameterType="String">
+        delete from mms_need_type_dict where need_type_id in 
+        <foreach item="needTypeId" collection="array" open="(" separator="," close=")">
+            #{needTypeId}
+        </foreach>
+    </delete>
+</mapper>

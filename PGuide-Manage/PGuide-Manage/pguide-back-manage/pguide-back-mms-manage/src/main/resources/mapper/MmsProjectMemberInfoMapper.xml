@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.pguide.mms.manage.mapper.MmsProjectMemberInfoMapper">
+    
+    <resultMap type="org.pguide.mms.manage.domain.MmsProjectMemberInfo" id="MmsProjectMemberInfoResult">
+        <result property="projectId"    column="project_id"    />
+        <result property="memberId"    column="member_id"    />
+        <result property="memberTypeId"    column="member_type_id"    />
+        <result property="created"    column="created"    />
+        <result property="updated"    column="updated"    />
+        <result property="deleted"    column="deleted"    />
+    </resultMap>
+
+    <sql id="selectMmsProjectMemberInfoVo">
+        select project_id, member_id, member_type_id, created, updated, deleted from mms_project_member_info
+    </sql>
+
+    <select id="selectMmsProjectMemberInfoList" parameterType="org.pguide.mms.manage.domain.MmsProjectMemberInfo" resultMap="MmsProjectMemberInfoResult">
+        <include refid="selectMmsProjectMemberInfoVo"/>
+        <where>  
+            <if test="memberId != null "> and member_id = #{memberId}</if>
+            <if test="memberTypeId != null "> and member_type_id = #{memberTypeId}</if>
+            <if test="created != null "> and created = #{created}</if>
+            <if test="updated != null "> and updated = #{updated}</if>
+            <if test="deleted != null "> and deleted = #{deleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectMmsProjectMemberInfoByProjectId" parameterType="Long" resultMap="MmsProjectMemberInfoResult">
+        <include refid="selectMmsProjectMemberInfoVo"/>
+        where project_id = #{projectId}
+    </select>
+        
+    <insert id="insertMmsProjectMemberInfo" parameterType="org.pguide.mms.manage.domain.MmsProjectMemberInfo">
+        insert into mms_project_member_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="projectId != null">project_id,</if>
+            <if test="memberId != null">member_id,</if>
+            <if test="memberTypeId != null">member_type_id,</if>
+            <if test="created != null">created,</if>
+            <if test="updated != null">updated,</if>
+            <if test="deleted != null">deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="projectId != null">#{projectId},</if>
+            <if test="memberId != null">#{memberId},</if>
+            <if test="memberTypeId != null">#{memberTypeId},</if>
+            <if test="created != null">#{created},</if>
+            <if test="updated != null">#{updated},</if>
+            <if test="deleted != null">#{deleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMmsProjectMemberInfo" parameterType="org.pguide.mms.manage.domain.MmsProjectMemberInfo">
+        update mms_project_member_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="memberId != null">member_id = #{memberId},</if>
+            <if test="memberTypeId != null">member_type_id = #{memberTypeId},</if>
+            <if test="created != null">created = #{created},</if>
+            <if test="updated != null">updated = #{updated},</if>
+            <if test="deleted != null">deleted = #{deleted},</if>
+        </trim>
+        where project_id = #{projectId}
+    </update>
+
+    <delete id="deleteMmsProjectMemberInfoByProjectId" parameterType="Long">
+        delete from mms_project_member_info where project_id = #{projectId}
+    </delete>
+
+    <delete id="deleteMmsProjectMemberInfoByProjectIds" parameterType="String">
+        delete from mms_project_member_info where project_id in 
+        <foreach item="projectId" collection="array" open="(" separator="," close=")">
+            #{projectId}
+        </foreach>
+    </delete>
+</mapper>

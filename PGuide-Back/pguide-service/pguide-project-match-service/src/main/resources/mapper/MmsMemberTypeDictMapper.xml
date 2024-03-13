@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.pguide.project.match.mapper.MmsMemberTypeDictMapper">
+
+    <resultMap id="BaseResultMap" type="org.pguide.project.match.entity.MmsMemberTypeDict">
+            <id property="memberTypeId" column="member_type_id" jdbcType="INTEGER"/>
+            <result property="memberTypeName" column="member_type_name" jdbcType="VARCHAR"/>
+            <result property="memberTypeKey" column="member_type_key" jdbcType="VARCHAR"/>
+            <result property="created" column="created" jdbcType="TIMESTAMP"/>
+            <result property="updated" column="updated" jdbcType="TIMESTAMP"/>
+            <result property="deleted" column="deleted" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        member_type_id,member_type_name,member_type_key,
+        created,updated,deleted
+    </sql>
+</mapper>

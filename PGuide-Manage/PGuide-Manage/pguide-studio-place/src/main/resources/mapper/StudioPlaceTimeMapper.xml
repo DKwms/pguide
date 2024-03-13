@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.pguide.studio.place.mapper.StudioPlaceTimeMapper">
+
+    <resultMap id="BaseResultMap" type="org.pguide.studio.place.entity.StudioPlaceTime">
+            <id property="placeDate" column="place_date" jdbcType="VARCHAR"/>
+            <result property="placeId" column="place_id" jdbcType="INTEGER"/>
+            <result property="placeBlockId" column="place_block_id" jdbcType="VARCHAR"/>
+            <result property="placeBlockStatus" column="place_block_status" jdbcType="VARCHAR"/>
+            <result property="placePeopleId" column="place_people_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        place_date,place_id,place_block_id,
+        place_block_status,place_people_id
+    </sql>
+
+
+</mapper>

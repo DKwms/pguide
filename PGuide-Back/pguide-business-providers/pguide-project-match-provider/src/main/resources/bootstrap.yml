@@ -1,0 +1,18 @@
+spring:
+  cloud:
+    nacos:
+      username: nacos
+      password: pguidenacos
+      server-addr: 47.109.136.236:8848
+      discovery:
+        username: nacos
+        password: pguidenacos
+        server-addr: 47.109.136.236:8848
+  #   redis
+  redis:
+    port: 6379
+    host: 47.109.136.236
+    password: dkwms
+
+  application:
+    name: pguide-project-match

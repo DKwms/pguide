@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.pguide.user.manage.mapper.UsercenterStudentInfoMapper">
+    
+    <resultMap type="org.pguide.user.manage.entity.UsercenterStudentInfo" id="UsercenterStudentInfoResult">
+        <result property="studentId"    column="student_id"    />
+        <result property="studentAccount"    column="student_account"    />
+        <result property="studentPassword"    column="student_password"    />
+        <result property="workId"    column="work_id"    />
+        <result property="studentSex"    column="student_sex"    />
+        <result property="studentBirth"    column="student_birth"    />
+        <result property="studentPhonenumber"    column="student_phonenumber"    />
+        <result property="studentEmail"    column="student_email"    />
+        <result property="studentSchool"    column="student_school"    />
+        <result property="studentAcademy"    column="student_academy"    />
+        <result property="studentYear"    column="student_year"    />
+        <result property="studentProfession"    column="student_profession"    />
+        <result property="userSign"    column="user_sign"    />
+        <result property="created"    column="created"    />
+        <result property="updated"    column="updated"    />
+        <result property="deleted"    column="deleted"    />
+    </resultMap>
+
+    <sql id="selectUsercenterStudentInfoVo">
+        select student_id, student_account, student_password, work_id, student_sex, student_birth, student_phonenumber, student_email, student_school, student_academy, student_year, student_profession, user_sign, created, updated, deleted from usercenter_student_info
+    </sql>
+
+    <select id="selectUsercenterStudentInfoList" parameterType="org.pguide.user.manage.entity.UsercenterStudentInfo" resultMap="UsercenterStudentInfoResult">
+        <include refid="selectUsercenterStudentInfoVo"/>
+        <where>  
+            <if test="studentAccount != null  and studentAccount != ''"> and student_account = #{studentAccount}</if>
+            <if test="studentPassword != null  and studentPassword != ''"> and student_password = #{studentPassword}</if>
+            <if test="workId != null  and workId != ''"> and work_id = #{workId}</if>
+            <if test="studentSex != null  and studentSex != ''"> and student_sex = #{studentSex}</if>
+            <if test="studentBirth != null "> and student_birth = #{studentBirth}</if>
+            <if test="studentPhonenumber != null "> and student_phonenumber = #{studentPhonenumber}</if>
+            <if test="studentEmail != null  and studentEmail != ''"> and student_email = #{studentEmail}</if>
+            <if test="studentSchool != null  and studentSchool != ''"> and student_school = #{studentSchool}</if>
+            <if test="studentAcademy != null  and studentAcademy != ''"> and student_academy = #{studentAcademy}</if>
+            <if test="studentYear != null  and studentYear != ''"> and student_year = #{studentYear}</if>
+            <if test="studentProfession != null  and studentProfession != ''"> and student_profession = #{studentProfession}</if>
+            <if test="userSign != null  and userSign != ''"> and user_sign = #{userSign}</if>
+            <if test="created != null "> and created = #{created}</if>
+            <if test="updated != null "> and updated = #{updated}</if>
+            <if test="deleted != null "> and deleted = #{deleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectUsercenterStudentInfoByStudentId" parameterType="Long" resultMap="UsercenterStudentInfoResult">
+        <include refid="selectUsercenterStudentInfoVo"/>
+        where student_id = #{studentId}
+    </select>
+        
+    <insert id="insertUsercenterStudentInfo" parameterType="org.pguide.user.manage.entity.UsercenterStudentInfo" useGeneratedKeys="true" keyProperty="studentId">
+        insert into usercenter_student_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="studentAccount != null">student_account,</if>
+            <if test="studentPassword != null">student_password,</if>
+            <if test="workId != null">work_id,</if>
+            <if test="studentSex != null">student_sex,</if>
+            <if test="studentBirth != null">student_birth,</if>
+            <if test="studentPhonenumber != null">student_phonenumber,</if>
+            <if test="studentEmail != null">student_email,</if>
+            <if test="studentSchool != null">student_school,</if>
+            <if test="studentAcademy != null">student_academy,</if>
+            <if test="studentYear != null">student_year,</if>
+            <if test="studentProfession != null">student_profession,</if>
+            <if test="userSign != null">user_sign,</if>
+            <if test="created != null">created,</if>
+            <if test="updated != null">updated,</if>
+            <if test="deleted != null">deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="studentAccount != null">#{studentAccount},</if>
+            <if test="studentPassword != null">#{studentPassword},</if>
+            <if test="workId != null">#{workId},</if>
+            <if test="studentSex != null">#{studentSex},</if>
+            <if test="studentBirth != null">#{studentBirth},</if>
+            <if test="studentPhonenumber != null">#{studentPhonenumber},</if>
+            <if test="studentEmail != null">#{studentEmail},</if>
+            <if test="studentSchool != null">#{studentSchool},</if>
+            <if test="studentAcademy != null">#{studentAcademy},</if>
+            <if test="studentYear != null">#{studentYear},</if>
+            <if test="studentProfession != null">#{studentProfession},</if>
+            <if test="userSign != null">#{userSign},</if>
+            <if test="created != null">#{created},</if>
+            <if test="updated != null">#{updated},</if>
+            <if test="deleted != null">#{deleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateUsercenterStudentInfo" parameterType="org.pguide.user.manage.entity.UsercenterStudentInfo">
+        update usercenter_student_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="studentAccount != null">student_account = #{studentAccount},</if>
+            <if test="studentPassword != null">student_password = #{studentPassword},</if>
+            <if test="workId != null">work_id = #{workId},</if>
+            <if test="studentSex != null">student_sex = #{studentSex},</if>
+            <if test="studentBirth != null">student_birth = #{studentBirth},</if>
+            <if test="studentPhonenumber != null">student_phonenumber = #{studentPhonenumber},</if>
+            <if test="studentEmail != null">student_email = #{studentEmail},</if>
+            <if test="studentSchool != null">student_school = #{studentSchool},</if>
+            <if test="studentAcademy != null">student_academy = #{studentAcademy},</if>
+            <if test="studentYear != null">student_year = #{studentYear},</if>
+            <if test="studentProfession != null">student_profession = #{studentProfession},</if>
+            <if test="userSign != null">user_sign = #{userSign},</if>
+            <if test="created != null">created = #{created},</if>
+            <if test="updated != null">updated = #{updated},</if>
+            <if test="deleted != null">deleted = #{deleted},</if>
+        </trim>
+        where student_id = #{studentId}
+    </update>
+
+    <delete id="deleteUsercenterStudentInfoByStudentId" parameterType="Long">
+        delete from usercenter_student_info where student_id = #{studentId}
+    </delete>
+
+    <delete id="deleteUsercenterStudentInfoByStudentIds" parameterType="String">
+        delete from usercenter_student_info where student_id in 
+        <foreach item="studentId" collection="array" open="(" separator="," close=")">
+            #{studentId}
+        </foreach>
+    </delete>
+</mapper>

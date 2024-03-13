@@ -1,0 +1,1 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=org.pguide.api.user.config.UserApiAutoConfiguration,org.pguide.common.redis.config.PguideRedisAutoConfiguration

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.pguide.competition.manage.mapper.CmsOrgDictMapper">
+
+    <resultMap id="BaseResultMap" type="org.pguide.competition.manage.entity.CmsOrgDict">
+            <id property="orgId" column="org_id" jdbcType="INTEGER"/>
+            <result property="orgName" column="org_name" jdbcType="VARCHAR"/>
+            <result property="orgStartTime" column="org_start_time" jdbcType="TIMESTAMP"/>
+            <result property="orgParentId" column="org_parent_id" jdbcType="TIMESTAMP"/>
+            <result property="created" column="created" jdbcType="TIMESTAMP"/>
+            <result property="updated" column="updated" jdbcType="TIMESTAMP"/>
+            <result property="deleted" column="deleted" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        org_id,org_name,org_start_time,
+        org_parent_id,created,updated,
+        deleted
+    </sql>
+</mapper>

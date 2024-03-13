@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.pguide</groupId>
+        <artifactId>PGuide-Back</artifactId>
+        <version>1.1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>pguide-commons</artifactId>
+    <description>公用组件模块</description>
+    <packaging>pom</packaging>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+    </properties>
+
+    <modules>
+        <!--公用核心模块-->
+        <module>pguide-common-core</module>
+        <!--redis工具包-->
+        <module>pguide-common-redis</module>
+        <!--安全鉴权工具包-->
+        <module>pguide-common-security</module>
+        <!--下载工具包-->
+        <module>pguide-common-download</module>
+        <!--rabbitmq工具包-->
+        <module>pguide-common-rabbitmq</module>
+        <!--es工具包-->
+        <module>pguide-common-search</module>
+        <!--分页工具包-->
+        <module>pguide-common-page</module>
+    </modules>
+
+
+
+</project>

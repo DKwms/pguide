@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.pguide.cms.manage.mapper.CmsOrgDictMapper">
+    
+    <resultMap type="org.pguide.cms.manage.domain.CmsOrgDict" id="CmsOrgDictResult">
+        <result property="orgId"    column="org_id"    />
+        <result property="orgName"    column="org_name"    />
+        <result property="orgStartTime"    column="org_start_time"    />
+        <result property="orgParentId"    column="org_parent_id"    />
+        <result property="orgArea"    column="org_area"    />
+        <result property="created"    column="created"    />
+        <result property="updated"    column="updated"    />
+        <result property="deleted"    column="deleted"    />
+    </resultMap>
+
+    <sql id="selectCmsOrgDictVo">
+        select org_id, org_name, org_start_time, org_parent_id, org_area, created, updated, deleted from cms_org_dict
+    </sql>
+
+    <select id="selectCmsOrgDictList" parameterType="org.pguide.cms.manage.domain.CmsOrgDict" resultMap="CmsOrgDictResult">
+        <include refid="selectCmsOrgDictVo"/>
+        <where>  
+            <if test="orgName != null  and orgName != ''"> and org_name like concat('%', #{orgName}, '%')</if>
+            <if test="orgStartTime != null "> and org_start_time = #{orgStartTime}</if>
+            <if test="orgParentId != null "> and org_parent_id = #{orgParentId}</if>
+            <if test="orgArea != null  and orgArea != ''"> and org_area = #{orgArea}</if>
+            <if test="created != null "> and created = #{created}</if>
+            <if test="updated != null "> and updated = #{updated}</if>
+            <if test="deleted != null "> and deleted = #{deleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectCmsOrgDictByOrgId" parameterType="Long" resultMap="CmsOrgDictResult">
+        <include refid="selectCmsOrgDictVo"/>
+        where org_id = #{orgId}
+    </select>
+        
+    <insert id="insertCmsOrgDict" parameterType="org.pguide.cms.manage.domain.CmsOrgDict">
+        insert into cms_org_dict
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orgId != null">org_id,</if>
+            <if test="orgName != null">org_name,</if>
+            <if test="orgStartTime != null">org_start_time,</if>
+            <if test="orgParentId != null">org_parent_id,</if>
+            <if test="orgArea != null">org_area,</if>
+            <if test="created != null">created,</if>
+            <if test="updated != null">updated,</if>
+            <if test="deleted != null">deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orgId != null">#{orgId},</if>
+            <if test="orgName != null">#{orgName},</if>
+            <if test="orgStartTime != null">#{orgStartTime},</if>
+            <if test="orgParentId != null">#{orgParentId},</if>
+            <if test="orgArea != null">#{orgArea},</if>
+            <if test="created != null">#{created},</if>
+            <if test="updated != null">#{updated},</if>
+            <if test="deleted != null">#{deleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCmsOrgDict" parameterType="org.pguide.cms.manage.domain.CmsOrgDict">
+        update cms_org_dict
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orgName != null">org_name = #{orgName},</if>
+            <if test="orgStartTime != null">org_start_time = #{orgStartTime},</if>
+            <if test="orgParentId != null">org_parent_id = #{orgParentId},</if>
+            <if test="orgArea != null">org_area = #{orgArea},</if>
+            <if test="created != null">created = #{created},</if>
+            <if test="updated != null">updated = #{updated},</if>
+            <if test="deleted != null">deleted = #{deleted},</if>
+        </trim>
+        where org_id = #{orgId}
+    </update>
+
+    <delete id="deleteCmsOrgDictByOrgId" parameterType="Long">
+        delete from cms_org_dict where org_id = #{orgId}
+    </delete>
+
+    <delete id="deleteCmsOrgDictByOrgIds" parameterType="String">
+        delete from cms_org_dict where org_id in 
+        <foreach item="orgId" collection="array" open="(" separator="," close=")">
+            #{orgId}
+        </foreach>
+    </delete>
+</mapper>

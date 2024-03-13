@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.pguide.index.info.mapper.IndexPartboxTypeMapper">
+
+    <resultMap id="BaseResultMap" type="org.pguide.entity.index.info.entity.IndexPartboxType">
+            <id property="partboxId" column="partbox_id" jdbcType="INTEGER"/>
+            <result property="partboxType" column="partbox_type" jdbcType="VARCHAR"/>
+            <result property="partboxState" column="partbox_state" jdbcType="VARCHAR"/>
+            <result property="created" column="created" jdbcType="TIMESTAMP"/>
+            <result property="updated" column="updated" jdbcType="TIMESTAMP"/>
+            <result property="deleted" column="deleted" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        partbox_id,partbox_type,partbox_state,
+        created,updated,deleted
+    </sql>
+</mapper>

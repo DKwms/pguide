@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pguide.project.mapper.ProjectTaskTagMapper">
+    
+    <resultMap type="com.pguide.project.domain.ProjectTaskTag" id="ProjectTaskTagResult">
+        <result property="tagsId"    column="tags_id"    />
+        <result property="tagsName"    column="tags_name"    />
+        <result property="tagsType"    column="tags_type"    />
+        <result property="taskId"    column="task_id"    />
+    </resultMap>
+
+    <sql id="selectProjectTaskTagVo">
+        select tags_id, tags_name, tags_type, task_id from project_task_tag
+    </sql>
+
+    <select id="selectProjectTaskTagList" parameterType="com.pguide.project.domain.ProjectTaskTag" resultMap="ProjectTaskTagResult">
+        <include refid="selectProjectTaskTagVo"/>
+        <where>  
+            <if test="tagsName != null  and tagsName != ''"> and tags_name like concat('%', #{tagsName}, '%')</if>
+            <if test="tagsType != null  and tagsType != ''"> and tags_type = #{tagsType}</if>
+            <if test="taskId != null "> and task_id = #{taskId}</if>
+        </where>
+    </select>
+    
+    <select id="selectProjectTaskTagByTagsId" parameterType="Long" resultMap="ProjectTaskTagResult">
+        <include refid="selectProjectTaskTagVo"/>
+        where tags_id = #{tagsId}
+    </select>
+        
+    <insert id="insertProjectTaskTag" parameterType="com.pguide.project.domain.ProjectTaskTag">
+        insert into project_task_tag
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="tagsId != null">tags_id,</if>
+            <if test="tagsName != null">tags_name,</if>
+            <if test="tagsType != null">tags_type,</if>
+            <if test="taskId != null">task_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="tagsId != null">#{tagsId},</if>
+            <if test="tagsName != null">#{tagsName},</if>
+            <if test="tagsType != null">#{tagsType},</if>
+            <if test="taskId != null">#{taskId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateProjectTaskTag" parameterType="com.pguide.project.domain.ProjectTaskTag">
+        update project_task_tag
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="tagsName != null">tags_name = #{tagsName},</if>
+            <if test="tagsType != null">tags_type = #{tagsType},</if>
+            <if test="taskId != null">task_id = #{taskId},</if>
+        </trim>
+        where tags_id = #{tagsId}
+    </update>
+
+    <delete id="deleteProjectTaskTagByTagsId" parameterType="Long">
+        delete from project_task_tag where tags_id = #{tagsId}
+    </delete>
+
+    <delete id="deleteProjectTaskTagByTagsIds" parameterType="String">
+        delete from project_task_tag where tags_id in 
+        <foreach item="tagsId" collection="array" open="(" separator="," close=")">
+            #{tagsId}
+        </foreach>
+    </delete>
+</mapper>

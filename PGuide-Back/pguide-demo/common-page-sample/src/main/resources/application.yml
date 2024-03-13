@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ***
+    password: ***
+    url: jdbc:mysql://47.109.136.236:3306/pguide_project_mms?rewriteBatchedStatements=true&useCursorFetch=true&characterEncoding=UTF-8&allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Shanghai
+    hikari:
+      maximum-pool-size: 100
+      minimum-idle: 10
+
+
+server:
+  port: 20001

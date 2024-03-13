@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.pguide.user.manage.mapper.UsercenterTeacherInfoMapper">
+    
+    <resultMap type="org.pguide.user.manage.entity.UsercenterTeacherInfo" id="UsercenterTeacherInfoResult">
+        <result property="teacherId"    column="teacher_id"    />
+        <result property="workId"    column="work_id"    />
+        <result property="teacherAccount"    column="teacher_account"    />
+        <result property="teacherPassword"    column="teacher_password"    />
+        <result property="teacherSex"    column="teacher_sex"    />
+        <result property="teacherBirth"    column="teacher_birth"    />
+        <result property="teacherPhonenumber"    column="teacher_phonenumber"    />
+        <result property="teacherEmail"    column="teacher_email"    />
+        <result property="teacherUnit"    column="teacher_unit"    />
+        <result property="teacherAcademy"    column="teacher_academy"    />
+        <result property="teacherProfession"    column="teacher_profession"    />
+        <result property="teacherSign"    column="teacher_sign"    />
+        <result property="created"    column="created"    />
+        <result property="updated"    column="updated"    />
+        <result property="deleted"    column="deleted"    />
+    </resultMap>
+
+    <sql id="selectUsercenterTeacherInfoVo">
+        select teacher_id, work_id, teacher_account, teacher_password, teacher_sex, teacher_birth, teacher_phonenumber, teacher_email, teacher_unit, teacher_academy, teacher_profession, teacher_sign, created, updated, deleted from usercenter_teacher_info
+    </sql>
+
+    <select id="selectUsercenterTeacherInfoList" parameterType="org.pguide.user.manage.entity.UsercenterTeacherInfo" resultMap="UsercenterTeacherInfoResult">
+        <include refid="selectUsercenterTeacherInfoVo"/>
+        <where>  
+            <if test="workId != null  and workId != ''"> and work_id = #{workId}</if>
+            <if test="teacherAccount != null  and teacherAccount != ''"> and teacher_account = #{teacherAccount}</if>
+            <if test="teacherPassword != null  and teacherPassword != ''"> and teacher_password = #{teacherPassword}</if>
+            <if test="teacherSex != null  and teacherSex != ''"> and teacher_sex = #{teacherSex}</if>
+            <if test="teacherBirth != null "> and teacher_birth = #{teacherBirth}</if>
+            <if test="teacherPhonenumber != null "> and teacher_phonenumber = #{teacherPhonenumber}</if>
+            <if test="teacherEmail != null  and teacherEmail != ''"> and teacher_email = #{teacherEmail}</if>
+            <if test="teacherUnit != null  and teacherUnit != ''"> and teacher_unit = #{teacherUnit}</if>
+            <if test="teacherAcademy != null  and teacherAcademy != ''"> and teacher_academy = #{teacherAcademy}</if>
+            <if test="teacherProfession != null  and teacherProfession != ''"> and teacher_profession = #{teacherProfession}</if>
+            <if test="teacherSign != null  and teacherSign != ''"> and teacher_sign = #{teacherSign}</if>
+            <if test="created != null "> and created = #{created}</if>
+            <if test="updated != null "> and updated = #{updated}</if>
+            <if test="deleted != null "> and deleted = #{deleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectUsercenterTeacherInfoByTeacherId" parameterType="Integer" resultMap="UsercenterTeacherInfoResult">
+        <include refid="selectUsercenterTeacherInfoVo"/>
+        where teacher_id = #{teacherId}
+    </select>
+        
+    <insert id="insertUsercenterTeacherInfo" parameterType="org.pguide.user.manage.entity.UsercenterTeacherInfo" useGeneratedKeys="true" keyProperty="teacherId">
+        insert into usercenter_teacher_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="workId != null">work_id,</if>
+            <if test="teacherAccount != null">teacher_account,</if>
+            <if test="teacherpassword != null">teacher_password,</if>
+            <if test="teacherSex != null">teacher_sex,</if>
+            <if test="teacherBirth != null">teacher_birth,</if>
+            <if test="teacherPhonenumber != null">teacher_phonenumber,</if>
+            <if test="teacherEmail != null">teacher_email,</if>
+            <if test="teacherUnit != null">teacher_unit,</if>
+            <if test="teacherAcademy != null">teacher_academy,</if>
+            <if test="teacherProfession != null">teacher_profession,</if>
+            <if test="teacherSign != null">teacher_sign,</if>
+            <if test="created != null">created,</if>
+            <if test="updated != null">updated,</if>
+            <if test="deleted != null">deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="workId != null">#{workId},</if>
+            <if test="teacherAccount != null">#{teacherAccount},</if>
+            <if test="teacherpassword != null">#{teacherpassword},</if>
+            <if test="teacherSex != null">#{teacherSex},</if>
+            <if test="teacherBirth != null">#{teacherBirth},</if>
+            <if test="teacherPhonenumber != null">#{teacherPhonenumber},</if>
+            <if test="teacherEmail != null">#{teacherEmail},</if>
+            <if test="teacherUnit != null">#{teacherUnit},</if>
+            <if test="teacherAcademy != null">#{teacherAcademy},</if>
+            <if test="teacherProfession != null">#{teacherProfession},</if>
+            <if test="teacherSign != null">#{teacherSign},</if>
+            <if test="created != null">#{created},</if>
+            <if test="updated != null">#{updated},</if>
+            <if test="deleted != null">#{deleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateUsercenterTeacherInfo" parameterType="org.pguide.user.manage.entity.UsercenterTeacherInfo">
+        update usercenter_teacher_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="workId != null">work_id = #{workId},</if>
+            <if test="teacherAccount != null">teacher_account = #{teacherAccount},</if>
+            <if test="teacherpassword != null">teacher_password = #{teacherpassword},</if>
+            <if test="teacherSex != null">teacher_sex = #{teacherSex},</if>
+            <if test="teacherBirth != null">teacher_birth = #{teacherBirth},</if>
+            <if test="teacherPhonenumber != null">teacher_phonenumber = #{teacherPhonenumber},</if>
+            <if test="teacherEmail != null">teacher_email = #{teacherEmail},</if>
+            <if test="teacherUnit != null">teacher_unit = #{teacherUnit},</if>
+            <if test="teacherAcademy != null">teacher_academy = #{teacherAcademy},</if>
+            <if test="teacherProfession != null">teacher_profession = #{teacherProfession},</if>
+            <if test="teacherSign != null">teacher_sign = #{teacherSign},</if>
+            <if test="created != null">created = #{created},</if>
+            <if test="updated != null">updated = #{updated},</if>
+            <if test="deleted != null">deleted = #{deleted},</if>
+        </trim>
+        where teacher_id = #{teacherId}
+    </update>
+
+    <delete id="deleteUsercenterTeacherInfoByTeacherId" parameterType="Integer">
+        delete from usercenter_teacher_info where teacher_id = #{teacherId}
+    </delete>
+
+    <delete id="deleteUsercenterTeacherInfoByTeacherIds" parameterType="String">
+        delete from usercenter_teacher_info where teacher_id in 
+        <foreach item="teacherId" collection="array" open="(" separator="," close=")">
+            #{teacherId}
+        </foreach>
+    </delete>
+</mapper>

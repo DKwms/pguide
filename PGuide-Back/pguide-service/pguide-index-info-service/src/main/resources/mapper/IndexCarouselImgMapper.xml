@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.pguide.index.info.mapper.IndexCarouselImgMapper">
+
+    <resultMap id="BaseResultMap" type="org.pguide.entity.index.info.entity.IndexCarouselImg">
+            <id property="carouselImgId" column="carousel_img_id" jdbcType="INTEGER"/>
+            <result property="carouselImgType" column="carousel_img_type" jdbcType="VARCHAR"/>
+            <result property="carouselImgUrl" column="carousel_img_url" jdbcType="VARCHAR"/>
+            <result property="created" column="created" jdbcType="TIMESTAMP"/>
+            <result property="updated" column="updated" jdbcType="TIMESTAMP"/>
+            <result property="deleted" column="deleted" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        carousel_img_id,carousel_img_type,carousel_img_url,
+        created,updated,deleted
+    </sql>
+</mapper>

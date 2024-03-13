@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: pguide-manage
+  #    配置中心
+  cloud:
+    nacos:
+      server-addr: 127.0.0.1:8848
+      config:
+        namespace: 461350a8-233a-4b93-a542-377a7c89819a
+        group: dev
+        extension-configs:
+          - data-id: redis.yml
+            group: dev
+            refresh: true

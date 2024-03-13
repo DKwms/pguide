@@ -1,0 +1,58 @@
+spring:
+  cloud:
+    nacos:
+      username: nacos
+      password: **
+      server-addr: **
+      discovery:
+      config:
+        namespace: **
+        group: dev
+
+
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        #==============================================  auth
+        - id: pgudie_auth
+          uri: lb://pguide-auth
+          predicates:
+            - Path=/api/auth/**
+        #        -auth 模块暂时不用重写，里面都是auth/xxx
+        #        filters:
+        #          - RewritePath=/api/auth/(?<segment>.*),/api/$\{segment}
+        #==============================================   usercenter
+        - id: pguide_usercenter
+          uri: lb://pguide-usercenter
+          predicates:
+            - Path=/api/user/**
+        #==============================================   index
+        - id: pguide_index
+          uri: lb://pguide-index-info
+          predicates:
+            - Path=/api/index/info/**
+        #==============================================   cms
+        - id: pguide_cms
+          uri: lb://pguide-competition-manage
+          predicates:
+            - Path=/api/cms/**
+        #=============================================  mms
+        - id: pguide_mms
+          uri: lb://pguide-project-match
+          predicates:
+            - Path=/api/mms/**
+
+  application:
+    name: pguide-gateway
+
+  redis:
+    port: 6379
+    host: **
+    password: **
+
+pguide:
+  gateway:
+    authentication:
+      url: /api/auth/login,/api/auth/**

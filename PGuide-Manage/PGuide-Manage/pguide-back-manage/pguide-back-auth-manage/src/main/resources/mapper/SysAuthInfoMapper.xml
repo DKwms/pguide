@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.pguide.auth.manage.mapper.SysAuthInfoMapper">
+
+    <resultMap id="BaseResultMap" type="org.pguide.auth.manage.entity.SysAuthInfo">
+            <id property="sysId" column="sys_id" jdbcType="INTEGER"/>
+            <result property="sysName" column="sys_name" jdbcType="VARCHAR"/>
+            <result property="sysType" column="sys_type" jdbcType="VARCHAR"/>
+            <result property="sysUser" column="sys_user" jdbcType="VARCHAR"/>
+            <result property="created" column="created" jdbcType="TIMESTAMP"/>
+            <result property="updated" column="updated" jdbcType="TIMESTAMP"/>
+            <result property="deleted" column="deleted" jdbcType="INTEGER"/>
+    </resultMap>
+    <resultMap type="org.pguide.auth.manage.entity.SysAuthInfo" id="SysAuthInfoResult">
+        <result property="sysId" column="sys_id"/>
+        <result property="sysName" column="sys_name"/>
+        <result property="sysType" column="sys_type"/>
+        <result property="sysUser" column="sys_user"/>
+        <result property="created" column="created"/>
+        <result property="updated" column="updated"/>
+        <result property="deleted" column="deleted"/>
+    </resultMap>
+
+    <sql id="selectSysAuthInfoVo"> select sys_id, sys_name, sys_type, sys_user, created, updated, deleted from sys_auth_info </sql>
+    <select id="selectSysAuthInfoList" parameterType="org.pguide.auth.manage.entity.SysAuthInfo" resultMap="SysAuthInfoResult">
+        <include refid="selectSysAuthInfoVo"/>
+        <where>
+            <if test="sysName != null and sysName != ''"> and sys_name like concat('%', #{sysName}, '%')</if>
+            <if test="sysType != null and sysType != ''"> and sys_type = #{sysType}</if>
+            <if test="sysUser != null and sysUser != ''"> and sys_user = #{sysUser}</if>
+        </where>
+    </select>
+    <select id="selectSysAuthInfoBySysId" parameterType="Long" resultMap="SysAuthInfoResult">
+        <include refid="selectSysAuthInfoVo"/>
+        where sys_id = #{sysId}
+    </select>
+    <insert id="insertSysAuthInfo" parameterType="org.pguide.auth.manage.entity.SysAuthInfo">
+        insert into sys_auth_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sysId != null">sys_id,</if>
+            <if test="sysName != null">sys_name,</if>
+            <if test="sysType != null">sys_type,</if>
+            <if test="sysUser != null">sys_user,</if>
+            <if test="created != null">created,</if>
+            <if test="updated != null">updated,</if>
+            <if test="deleted != null">deleted,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="sysId != null">#{sysId},</if>
+            <if test="sysName != null">#{sysName},</if>
+            <if test="sysType != null">#{sysType},</if>
+            <if test="sysUser != null">#{sysUser},</if>
+            <if test="created != null">#{created},</if>
+            <if test="updated != null">#{updated},</if>
+            <if test="deleted != null">#{deleted},</if>
+        </trim>
+    </insert>
+    <update id="updateSysAuthInfo" parameterType="org.pguide.auth.manage.entity.SysAuthInfo">
+        update sys_auth_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="sysName != null">sys_name = #{sysName},</if>
+            <if test="sysType != null">sys_type = #{sysType},</if>
+            <if test="sysUser != null">sys_user = #{sysUser},</if>
+            <if test="created != null">created = #{created},</if>
+            <if test="updated != null">updated = #{updated},</if>
+            <if test="deleted != null">deleted = #{deleted},</if>
+        </trim>
+        where sys_id = #{sysId}
+    </update>
+    <delete id="deleteSysAuthInfoBySysId" parameterType="Long"> delete from sys_auth_info where sys_id = #{sysId} </delete>
+    <delete id="deleteSysAuthInfoBySysIds" parameterType="String">
+        delete from sys_auth_info where sys_id in
+        <foreach item="sysId" collection="array" open="(" separator="," close=")"> #{sysId} </foreach>
+    </delete>
+</mapper>

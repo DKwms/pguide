@@ -1,0 +1,7 @@
+server:
+  port: 666
+
+
+pguide:
+  security:
+    jwtfilter: global

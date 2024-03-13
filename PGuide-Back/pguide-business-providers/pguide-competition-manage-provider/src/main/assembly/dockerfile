@@ -1,0 +1,12 @@
+#依赖的父镜像
+FROM openjdk:8
+#作者
+MAINTAINER DKwms
+#jar包添加到镜像中
+ADD pguide-competition-manage-provider.jar first.jar
+#添加配置文件
+ADD application.yml application.yml
+#容器暴露的端口 即jar程序在容器中运行的端口
+EXPOSE 9000
+#容器启动之后要执行的命令,注意这里的空格预留
+ENTRYPOINT ["java","-jar","first.jar"]

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.pguide.cms.manage.mapper.CmsCptInfoMapper">
+    
+    <resultMap type="org.pguide.cms.manage.domain.CmsCptInfo" id="CmsCptInfoResult">
+        <result property="cptId"    column="cpt_id"    />
+        <result property="cptName"    column="cpt_name"    />
+        <result property="cptStartTime"    column="cpt_start_time"    />
+        <result property="cptEndTime"    column="cpt_end_time"    />
+        <result property="cptArea"    column="cpt_area"    />
+        <result property="cptSubject"    column="cpt_subject"    />
+        <result property="orgId"    column="org_id"    />
+        <result property="created"    column="created"    />
+        <result property="updated"    column="updated"    />
+        <result property="deleted"    column="deleted"    />
+    </resultMap>
+
+    <sql id="selectCmsCptInfoVo">
+        select cpt_id, cpt_name, cpt_start_time, cpt_end_time, cpt_area, cpt_subject, org_id, created, updated, deleted from cms_cpt_info
+    </sql>
+
+    <select id="selectCmsCptInfoList" parameterType="org.pguide.cms.manage.domain.CmsCptInfo" resultMap="CmsCptInfoResult">
+        <include refid="selectCmsCptInfoVo"/>
+        <where>  
+            <if test="cptName != null  and cptName != ''"> and cpt_name like concat('%', #{cptName}, '%')</if>
+            <if test="cptStartTime != null "> and cpt_start_time &gt;= #{cptStartTime}</if>
+            <if test="cptEndTime != null "> and cpt_end_time &lt;= #{cptEndTime}</if>
+            <if test="cptArea != null  and cptArea != ''"> and cpt_area = #{cptArea}</if>
+            <if test="cptSubject != null  and cptSubject != ''"> and cpt_subject = #{cptSubject}</if>
+            <if test="orgId != null  and orgId != ''"> and org_id = #{orgId}</if>
+            <if test="created != null "> and created = #{created}</if>
+            <if test="updated != null "> and updated = #{updated}</if>
+            <if test="deleted != null "> and deleted = #{deleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectCmsCptInfoByCptId" parameterType="Long" resultMap="CmsCptInfoResult">
+        <include refid="selectCmsCptInfoVo"/>
+        where cpt_id = #{cptId}
+    </select>
+        
+    <insert id="insertCmsCptInfo" parameterType="org.pguide.cms.manage.domain.CmsCptInfo">
+        insert into cms_cpt_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="cptId != null">cpt_id,</if>
+            <if test="cptName != null">cpt_name,</if>
+            <if test="cptStartTime != null">cpt_start_time,</if>
+            <if test="cptEndTime != null">cpt_end_time,</if>
+            <if test="cptArea != null">cpt_area,</if>
+            <if test="cptSubject != null">cpt_subject,</if>
+            <if test="orgId != null">org_id,</if>
+            <if test="created != null">created,</if>
+            <if test="updated != null">updated,</if>
+            <if test="deleted != null">deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="cptId != null">#{cptId},</if>
+            <if test="cptName != null">#{cptName},</if>
+            <if test="cptStartTime != null">#{cptStartTime},</if>
+            <if test="cptEndTime != null">#{cptEndTime},</if>
+            <if test="cptArea != null">#{cptArea},</if>
+            <if test="cptSubject != null">#{cptSubject},</if>
+            <if test="orgId != null">#{orgId},</if>
+            <if test="created != null">#{created},</if>
+            <if test="updated != null">#{updated},</if>
+            <if test="deleted != null">#{deleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCmsCptInfo" parameterType="org.pguide.cms.manage.domain.CmsCptInfo">
+        update cms_cpt_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="cptName != null">cpt_name = #{cptName},</if>
+            <if test="cptStartTime != null">cpt_start_time = #{cptStartTime},</if>
+            <if test="cptEndTime != null">cpt_end_time = #{cptEndTime},</if>
+            <if test="cptArea != null">cpt_area = #{cptArea},</if>
+            <if test="cptSubject != null">cpt_subject = #{cptSubject},</if>
+            <if test="orgId != null">org_id = #{orgId},</if>
+            <if test="created != null">created = #{created},</if>
+            <if test="updated != null">updated = #{updated},</if>
+            <if test="deleted != null">deleted = #{deleted},</if>
+        </trim>
+        where cpt_id = #{cptId}
+    </update>
+
+    <delete id="deleteCmsCptInfoByCptId" parameterType="Long">
+        delete from cms_cpt_info where cpt_id = #{cptId}
+    </delete>
+
+    <delete id="deleteCmsCptInfoByCptIds" parameterType="String">
+        delete from cms_cpt_info where cpt_id in 
+        <foreach item="cptId" collection="array" open="(" separator="," close=")">
+            #{cptId}
+        </foreach>
+    </delete>
+</mapper>

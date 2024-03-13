@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pguide.project.mapper.ProjectTaskReceiverMapper">
+    
+    <resultMap type="com.pguide.project.domain.ProjectTaskReceiver" id="ProjectTaskReceiverResult">
+        <result property="taskId"    column="task_id"    />
+        <result property="userId"    column="user_id"    />
+    </resultMap>
+
+    <sql id="selectProjectTaskReceiverVo">
+        select task_id, user_id from project_task_receiver
+    </sql>
+
+    <select id="selectProjectTaskReceiverList" parameterType="com.pguide.project.domain.ProjectTaskReceiver" resultMap="ProjectTaskReceiverResult">
+        <include refid="selectProjectTaskReceiverVo"/>
+        <where>  
+        </where>
+    </select>
+    
+    <select id="selectProjectTaskReceiverByTaskId" parameterType="Long" resultMap="ProjectTaskReceiverResult">
+        <include refid="selectProjectTaskReceiverVo"/>
+        where task_id = #{taskId}
+    </select>
+
+    <select id="getTaskIdByUser" resultType="java.lang.Long">
+        select task_id from project_task_receiver where user_id = #{user_id}
+    </select>
+
+    <insert id="insertProjectTaskReceiver" parameterType="com.pguide.project.domain.ProjectTaskReceiver">
+        insert into project_task_receiver
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="taskId != null">task_id,</if>
+            <if test="userId != null">user_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="taskId != null">#{taskId},</if>
+            <if test="userId != null">#{userId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateProjectTaskReceiver" parameterType="com.pguide.project.domain.ProjectTaskReceiver">
+        update project_task_receiver
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null">user_id = #{userId},</if>
+        </trim>
+        where task_id = #{taskId}
+    </update>
+
+    <delete id="deleteProjectTaskReceiverByTaskId" parameterType="Long">
+        delete from project_task_receiver where task_id = #{taskId}
+    </delete>
+
+    <delete id="deleteProjectTaskReceiverByTaskIds" parameterType="String">
+        delete from project_task_receiver where task_id in 
+        <foreach item="taskId" collection="array" open="(" separator="," close=")">
+            #{taskId}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.pguide.cms.manage.mapper.CmsSubjectDictMapper">
+    
+    <resultMap type="org.pguide.cms.manage.domain.CmsSubjectDict" id="CmsSubjectDictResult">
+        <result property="subjectId"    column="subject_id"    />
+        <result property="subjectName"    column="subject_name"    />
+        <result property="subjectLevel"    column="subject_level"    />
+        <result property="parentId"    column="parent_id"    />
+        <result property="created"    column="created"    />
+        <result property="updated"    column="updated"    />
+        <result property="deleted"    column="deleted"    />
+    </resultMap>
+
+    <sql id="selectCmsSubjectDictVo">
+        select subject_id, subject_name, subject_level, parent_id, created, updated, deleted from cms_subject_dict
+    </sql>
+
+    <select id="selectCmsSubjectDictList" parameterType="org.pguide.cms.manage.domain.CmsSubjectDict" resultMap="CmsSubjectDictResult">
+        <include refid="selectCmsSubjectDictVo"/>
+        <where>  
+            <if test="subjectName != null  and subjectName != ''"> and subject_name like concat('%', #{subjectName}, '%')</if>
+            <if test="subjectLevel != null  and subjectLevel != ''"> and subject_level = #{subjectLevel}</if>
+            <if test="parentId != null "> and parent_id = #{parentId}</if>
+            <if test="created != null "> and created = #{created}</if>
+            <if test="updated != null "> and updated = #{updated}</if>
+            <if test="deleted != null "> and deleted = #{deleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectCmsSubjectDictBySubjectId" parameterType="Long" resultMap="CmsSubjectDictResult">
+        <include refid="selectCmsSubjectDictVo"/>
+        where subject_id = #{subjectId}
+    </select>
+        
+    <insert id="insertCmsSubjectDict" parameterType="org.pguide.cms.manage.domain.CmsSubjectDict" useGeneratedKeys="true" keyProperty="subjectId">
+        insert into cms_subject_dict
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="subjectName != null">subject_name,</if>
+            <if test="subjectLevel != null">subject_level,</if>
+            <if test="parentId != null">parent_id,</if>
+            <if test="created != null">created,</if>
+            <if test="updated != null">updated,</if>
+            <if test="deleted != null">deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="subjectName != null">#{subjectName},</if>
+            <if test="subjectLevel != null">#{subjectLevel},</if>
+            <if test="parentId != null">#{parentId},</if>
+            <if test="created != null">#{created},</if>
+            <if test="updated != null">#{updated},</if>
+            <if test="deleted != null">#{deleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCmsSubjectDict" parameterType="org.pguide.cms.manage.domain.CmsSubjectDict">
+        update cms_subject_dict
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="subjectName != null">subject_name = #{subjectName},</if>
+            <if test="subjectLevel != null">subject_level = #{subjectLevel},</if>
+            <if test="parentId != null">parent_id = #{parentId},</if>
+            <if test="created != null">created = #{created},</if>
+            <if test="updated != null">updated = #{updated},</if>
+            <if test="deleted != null">deleted = #{deleted},</if>
+        </trim>
+        where subject_id = #{subjectId}
+    </update>
+
+    <delete id="deleteCmsSubjectDictBySubjectId" parameterType="Long">
+        delete from cms_subject_dict where subject_id = #{subjectId}
+    </delete>
+
+    <delete id="deleteCmsSubjectDictBySubjectIds" parameterType="String">
+        delete from cms_subject_dict where subject_id in 
+        <foreach item="subjectId" collection="array" open="(" separator="," close=")">
+            #{subjectId}
+        </foreach>
+    </delete>
+</mapper>

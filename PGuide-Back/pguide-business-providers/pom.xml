@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.pguide</groupId>
+        <artifactId>PGuide-Back</artifactId>
+        <version>1.1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>pguide-business-providers</artifactId>
+    <description>业务聚合模块</description>
+    <modules>
+<!--        用户中心-->
+        <module>pguide-user-provider</module>
+<!--        检索中心（es）-->
+        <module>pguide-search-provider</module>
+<!--        rbac权限管理-->
+        <module>pguide-rbac-provider</module>
+<!--        比赛管理模块-->
+        <module>pguide-competition-manage-provider</module>
+<!--        首页信息模块-->
+        <module>pguide-index-info-provider</module>
+<!--        比赛资源模块-->
+        <module>pguide-index-resource-provider</module>
+<!--        项目组队模块-->
+        <module>pguide-project-match-provider</module>
+<!--        团队管理模块-->
+        <module>pguide-project-group-provider</module>
+<!--        简历模块-->
+        <module>pguide-resume-provider</module>
+<!--        web在线交流服务-->
+        <module>pguide-contact-provider</module>
+<!--        项目场地管理服务-->
+        <module>pguide-manage-place-provider</module>
+<!--        项目器材管理服务-->
+        <module>pguide-manage-consumable-provider</module>
+<!--       项目生命周期管理服务-->
+        <module>pguide-manage-life-provider</module>
+<!--        项目积分（资金）管理服务-->
+        <module>pguide-manage-coin-provider</module>
+<!--        云平台服务中心-->
+        <module>pguide-cloud-provider</module>
+    </modules>
+    <packaging>pom</packaging>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <elasticsearch.version>7.4.2</elasticsearch.version>
+    </properties>
+
+    <dependencies>
+<!--        pguide common-->
+        <dependency>
+            <groupId>org.pguide</groupId>
+            <artifactId>pguide-common-core</artifactId>
+        </dependency>
+<!--        SpringBoot -->
+    </dependencies>
+
+
+    <dependencyManagement>
+        <dependencies>
+
+            <!--es 依赖-->
+            <dependency>
+                <groupId>org.elasticsearch.client</groupId>
+                <artifactId>elasticsearch-rest-high-level-client</artifactId>
+                <version>${elasticsearch.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.elasticsearch</groupId>
+                <artifactId>elasticsearch</artifactId>
+                <version>${elasticsearch.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.elasticsearch.client</groupId>
+                <artifactId>elasticsearch-rest-client</artifactId>
+                <version>${elasticsearch.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+
+</project>

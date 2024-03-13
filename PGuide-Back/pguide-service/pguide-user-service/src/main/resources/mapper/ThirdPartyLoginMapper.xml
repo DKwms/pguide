@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.pguide.user.mapper.ThirdPartyLoginMapper">
+
+    <resultMap id="BaseResultMap" type="org.pguide.user.entity.ThirdPartyLogin">
+            <id property="thirdPartyId" column="third_party_id" jdbcType="INTEGER"/>
+            <result property="thirdPartyName" column="third_party_name" jdbcType="VARCHAR"/>
+            <result property="thirdPartyImg" column="third_party_img" jdbcType="VARCHAR"/>
+            <result property="thirdPartyLinkurl" column="third_party_linkUrl" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        third_party_id,third_party_name,third_party_img,
+        third_party_linkUrl
+    </sql>
+</mapper>

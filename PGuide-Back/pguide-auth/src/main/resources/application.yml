@@ -1,0 +1,5 @@
+pguide:
+  server:
+    path:
+      authPage: http://localhost:99/
+

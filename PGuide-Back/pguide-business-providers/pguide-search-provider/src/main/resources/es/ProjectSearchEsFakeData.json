@@ -1,0 +1,34 @@
+
+//POST /pguide_groupinfo/_doc/1
+{
+  "project_name": "Data Analysis Project",
+  "subject": "Data Science",
+  "member": {
+    "member_name": "Emily Johnson",
+    "member_school": "School D",
+    "member_academy": "Academy D"
+  },
+  "admin": {
+    "admin_name": "Bob Williams",
+    "admin_school": "School E",
+    "admin_academy": "Academy E"
+  },
+  "master": {
+    "master_name": "Charlie Brown",
+    "master_school": "School F",
+    "master_academy": "Academy F"
+  },
+  "school": "University ABC",
+  "academy": "Data Science",
+  "city": "City Y",
+  "needs": {
+    "need_type_name": "Internship",
+    "recruit_name": "Data Analyst"
+  },
+  "open_level": "Private",
+  "cpt_info": {
+    "cpt_name": "Summer Internship",
+    "cpt_subject": "Data Analysis"
+  },
+  "coin": 75
+}

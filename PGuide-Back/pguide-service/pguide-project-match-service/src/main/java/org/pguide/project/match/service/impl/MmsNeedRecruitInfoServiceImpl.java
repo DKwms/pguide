@@ -1,0 +1,22 @@
+package org.pguide.project.match.service.impl;
+
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.pguide.project.match.entity.MmsNeedRecruitInfo;
+import org.pguide.project.match.service.MmsNeedRecruitInfoService;
+import org.pguide.project.match.mapper.MmsNeedRecruitInfoMapper;
+import org.springframework.stereotype.Service;
+
+/**
+* @author ROG
+* @description 针对表【mms_need_recruit_info】的数据库操作Service实现
+* @createDate 2024-01-29 15:36:35
+*/
+@Service
+public class MmsNeedRecruitInfoServiceImpl extends ServiceImpl<MmsNeedRecruitInfoMapper, MmsNeedRecruitInfo>
+    implements MmsNeedRecruitInfoService{
+
+}
+
+
+
+

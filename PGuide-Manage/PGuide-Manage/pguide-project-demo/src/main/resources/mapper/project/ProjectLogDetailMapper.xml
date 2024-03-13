@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pguide.project.mapper.ProjectLogDetailMapper">
+
+    <!-- <resultMap id="selectAllLogListDto" type="com.pguide.project.controller.dto.ProjectLogAllInfoDto"> -->
+    <!--     <id column="log_id" property="logId"/> -->
+    <!--     <result column="log_type_id" property="logTypeId"/> -->
+    <!--     <result column="log_detail_type" property="logDetailType"/> -->
+    <!--     <result column="log_info" property="logInfo"/> -->
+    <!--     <result column="log_time" property="logTime"/> -->
+    <!--     <association property="logType" column="log_type"/> -->
+    <!--     <association property="logAuthor" column="log_author"/> -->
+    <!-- </resultMap> -->
+    
+
+    <sql id="selectDetailTop">
+        log_id as logId,
+        top.log_type_id as logTypeId,
+        log_detail_type as logDetailType,
+        log_info as logInfo,
+        log_time as logTime,
+        log_type as logType,
+        log_author as logAuthor
+    </sql>
+
+    <select id="selectAllLogInfolist" resultType="com.pguide.project.controller.dto.ProjectLogAllInfoDto">
+        select <include refid="selectDetailTop"/>
+        from project_log_detail detail
+        left join project_log_top top
+        on detail.log_type_id = top.log_type_id
+
+    </select>
+
+</mapper>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.pguide.studio.place.mapper.StudioPlacePeopleMapper">
+
+    <resultMap id="BaseResultMap" type="org.pguide.studio.place.entity.StudioPlacePeople">
+            <id property="placePeopleId" column="place_people_id" jdbcType="INTEGER"/>
+            <result property="userId" column="user_id" jdbcType="INTEGER"/>
+            <result property="userImg" column="user_img" jdbcType="VARCHAR"/>
+            <result property="placePeopleMsg" column="place_people_msg" jdbcType="VARCHAR"/>
+            <result property="placePeopleStatus" column="place_people_status" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        place_people_id,user_id,user_img,
+        place_people_msg,place_people_status
+    </sql>
+</mapper>
